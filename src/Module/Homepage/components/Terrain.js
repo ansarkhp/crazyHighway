@@ -10,7 +10,6 @@ export const Terrain = (props) => {
         physics = false,
         texture
     } = props
-    console.log(scale);
     return (
         <>
             <mesh position={[pos[0], pos[1], pos[2]]} scale={[scale[0], scale[1], scale[2]]}>
