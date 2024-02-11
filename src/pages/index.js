@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, Stats } from '@react-three/drei'
-import { Homepage } from '@/Module';
+import dynamic from 'next/dynamic';
+import React from 'react'
+
+const Homepage = dynamic(() => import('@/Module').then((mod) => mod.Homepage))
 
 export default function Home() {
   return (
