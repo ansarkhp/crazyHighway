@@ -1,4 +1,4 @@
-import React, { Suspense, useRef, useState } from 'react'
+import React, { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Stats, PerspectiveCamera } from '@react-three/drei'
 import { Dividers, DriveCar, Lights, Terrain, Trees } from './components'

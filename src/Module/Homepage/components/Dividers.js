@@ -1,14 +1,14 @@
 import React from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
-
-
+import useKeyboard from '../hooks/useKeyboard'
 
 export const Dividers = (props) => {
     const { scene } = useThree()
     const { scene: obj } = useGLTF('models/Fence.glb')
-    let speed = 0.045
     const dividerArry = []
+
+    const keyMap = useKeyboard()
 
     function initDivider(obj) {
         for (let i = 4; i > -36; i -= 3.2) {
@@ -86,7 +86,7 @@ export const Dividers = (props) => {
 
     useFrame(() => (
         dividerArry.forEach((obj) => {
-            obj.update(speed)
+            obj.update(keyMap['speed'])
         })
     ))
 

@@ -1,19 +1,22 @@
 import React from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
+import useKeyboard from '../hooks/useKeyboard'
 
 
 
 export const Trees = (props) => {
     const { scene } = useThree()
     const { scene: obj } = useGLTF('models/Tree.glb')
-    let speed = 0.045
+
     const treesArry = []
     let min = 5.40
     let max = 10.50
+    const keyMap = useKeyboard()
+
 
     function initTree(object) {
-        for (let i = 4; i > -36; i -= 3.2) {
+        for (let i = 4; i > -36; i -= 4.2) {
             const posX = (Math.random() * (max - min) + min).toFixed(2)
             const posX2 = (Math.random() * (max - min) + min).toFixed(2)
             createTreeModel({
@@ -38,7 +41,7 @@ export const Trees = (props) => {
 
     }
     initTree(obj)
-    
+
 
     function createTreeModel({
         object,
@@ -99,10 +102,11 @@ export const Trees = (props) => {
     }
 
 
-    useFrame(() => (
+    useFrame(() => {
+        // console.log(keyMap['speed']);
         treesArry.forEach((obj) => {
-            obj.update(speed)
+            obj.update(keyMap['speed'])
         })
-    ))
+    })
 
 }
