@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Stats, PerspectiveCamera } from '@react-three/drei'
-import { Dividers, DriveCar, Lights, Terrain, Trees } from './components'
+import { Dividers, DriveCar, Lights, SpawnCars, Terrain, Trees } from './components'
 import { Leva } from 'leva'
 import * as THREE from 'three'
 
@@ -28,6 +28,7 @@ export const Homepage = () => {
                     <Dividers />
                     <Trees />
                     <DriveCar />
+                    <SpawnCars />
                 </Suspense>
 
             </Canvas>

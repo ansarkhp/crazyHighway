@@ -2,21 +2,47 @@ import React from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 import useKeyboard from '../hooks/useKeyboard'
-import * as THREE from 'three'
 
-export const DriveCar = (props) => {
+export const SpawnCars = (props) => {
     const { scene } = useThree()
     const gltf = useGLTF('models/race.glb')
     let speed = 0.045
-    let carMesh
+    // let carMesh
     const keyMap = useKeyboard()
+    let spawnCars = []
 
+    let min = 5
+    let max = -5
+
+    // createDriveCar({
+    //     object: gltf.scene.clone(),
+    //     pos: {
+    //         x: 1.25, y: 0, z: 0
+    //     },
+    //     uid:"1"
+    // })
     createDriveCar({
         object: gltf.scene.clone(),
         pos: {
-            x: 0, y: 0, z: 0
+            x: (Math.random() * (max - min) + min).toFixed(2), y: 0, z: -36
         },
+        uid:"2"
     })
+    // createDriveCar({
+    //     object: gltf.scene.clone(),
+    //     pos: {
+    //         x: -1.25, y: 0, z: 0
+    //     },
+    //     uid:"-1"
+    // })
+    // createDriveCar({
+    //     object: gltf.scene.clone(),
+    //     pos: {
+    //         x: -3.75, y: 0, z: 0
+    //     },
+    //     uid:"-2"
+    // })
+   
     function createDriveCar({
         object,
         pos = {
@@ -27,12 +53,13 @@ export const DriveCar = (props) => {
             y: 0,
             z: 0,
         },
+        uid = "",
     }) {
         console.log(object);
 
-        carMesh = object
-        carMesh.uid = 'driveCar'
-        const Am = scene.children.find(v => v.uid === 'driveCar')
+        let carMesh = object
+        carMesh.uid = uid
+        const Am = scene.children.find(v => v.uid === uid)
         if (Am) {
             scene.remove(Am)
         }
@@ -46,16 +73,27 @@ export const DriveCar = (props) => {
         });
 
 
-        // let bbox = new THREE.Box3().setFromObject(carMesh);
-        // let helper = new THREE.Box3Helper(bbox, new THREE.Color(0, 255, 0));
-        // let size = bbox.getSize(new THREE.Vector3());
-        // scene.add(helper);
-        // console.log(size);
+
 
         // carMesh = object
         carMesh.position.set(pos.x, pos.y, pos.z)
         carMesh.quaternion.set(0, 0, 0, 0)
         scene.add(carMesh)
+
+        carMesh.update = (speed) => {
+
+            carMesh.position.z += speed
+            // console.log(mesh.position.z);
+
+            if (carMesh.position.z > 5.5) {
+                var index = spawnCars.indexOf(carMesh);
+                if (index !== -1) {
+                    spawnCars.splice(index, 1);
+                }
+                scene.remove(carMesh)
+            }
+        }
+        spawnCars.push(carMesh)
         // gui.add(carMesh.position, 'x', -10, 10, .1)
         // gui.add(carMesh.position, 'y', -10, 10, .1)
         // gui.add(carMesh.position, 'z', -10, 10, .1)
@@ -77,20 +115,25 @@ export const DriveCar = (props) => {
         // carLoaded = true
     }
 
-    useFrame(() => {
+    useFrame((a, b, c) => {
 
-        // console.log(keyMap);
-        if (keyMap['ArrowLeft']) {
-            if (carMesh.position.x > -4.39) {
-                carMesh.position.x = carMesh.position.x - keyMap['speed'] 
-            }
-        }
-        if (keyMap['ArrowRight']) {
-            if (carMesh.position.x < 4.39) {
-                carMesh.position.x = carMesh.position.x + keyMap['speed']
-            }
+        // spawnCars.forEach((obj) => {
+        //     obj.update(keyMap['speed'])
+        // })
+        let random = Math.random() < 0.008
 
-        }
+        // console.log(a, b, c);
+        // if (random) {
+
+        //     createDriveCar({
+        //         object: gltf.scene.clone(),
+        //         pos: {
+        //             x: (Math.random() * (max - min) + min).toFixed(2), y: 0, z: -36
+        //         },
+        //     })
+
+        // }
+
     })
 
 }
