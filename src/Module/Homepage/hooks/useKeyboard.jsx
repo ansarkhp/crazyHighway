@@ -8,9 +8,9 @@ export default function useKeyboard() {
         const onDocumentKey = (e) => {
             keyMap.current[e.code] = e.type === 'keydown'
         }
-        
+
         document.addEventListener('keydown', onDocumentKey)
-      
+
         document.addEventListener('keyup', onDocumentKey)
         return () => {
             document.removeEventListener('keydown', onDocumentKey)
@@ -26,6 +26,7 @@ export default function useKeyboard() {
         // console.log("a", keyMap.current.speed);
         if (!keyMap.current.speed) {
             keyMap.current.speed = 0.05
+
         }
         // console.log("b", keyMap.current.speed);
         if (keyMap.current['ArrowUp']) {
@@ -37,11 +38,15 @@ export default function useKeyboard() {
         if (keyMap.current['ArrowDown']) {
             // let breakDown = speed - 0.005
             if (speed > 0.045) {
-                keyMap.current.speed -= 0.0005
+                keyMap.current.speed -= 0.001
             }
             // keyMap.current.speed = speed > 0.045 ? breakDown : 0.045
         }
-        // keyMap.current.distance = 
+        if (keyMap.current.distance) {
+            keyMap.current.distance = 0
+        } else {
+            keyMap.current.distance = keyMap.current.distance + keyMap.current.speed
+        }
         // console.log(speed);
     })
 

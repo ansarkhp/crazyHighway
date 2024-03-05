@@ -1,0 +1,44 @@
+body {
+  font-family: "Mont";
+}
+
+.canvas {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+}
+
+.statsUI {
+  bottom: 0;
+  top: unset !important;
+}
+
+.game-wrapper {
+  position: relative;
+  z-index: 22;
+  color: #fff;
+  text-align: center;
+
+
+
+  .meter {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    text-transform: uppercase;
+
+    .meter-divider {
+      border: 1px solid #fff;
+    }
+
+    .speed-meter {
+      font-size: 42px;
+      font-weight: 600;
+    }
+  }
+
+  .meter-values {
+    display: flex;
+    justify-content: space-between;
+  }
+}
