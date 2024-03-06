@@ -1,14 +1,13 @@
 import React from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
-import useKeyboard from '../hooks/useKeyboard'
 
 export const SpawnCars = (props) => {
     const { scene } = useThree()
     const gltf = useGLTF('models/race.glb')
     let speed = 0.045
     // let carMesh
-    const keyMap = useKeyboard()
+    const { keyMap } = props
     let spawnCars = []
 
     let min = 5
@@ -26,7 +25,7 @@ export const SpawnCars = (props) => {
         pos: {
             x: (Math.random() * (max - min) + min).toFixed(2), y: 0, z: -36
         },
-        uid:"2"
+        uid: "2"
     })
     // createDriveCar({
     //     object: gltf.scene.clone(),
@@ -42,7 +41,7 @@ export const SpawnCars = (props) => {
     //     },
     //     uid:"-2"
     // })
-   
+
     function createDriveCar({
         object,
         pos = {

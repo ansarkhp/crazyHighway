@@ -1,7 +1,6 @@
 import React from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
-import useKeyboard from '../hooks/useKeyboard'
 import * as THREE from 'three'
 
 export const DriveCar = (props) => {
@@ -9,7 +8,7 @@ export const DriveCar = (props) => {
     const gltf = useGLTF('models/race.glb')
     let speed = 0.045
     let carMesh
-    const keyMap = useKeyboard()
+    const { keyMap } = props
 
     createDriveCar({
         object: gltf.scene.clone(),
@@ -82,7 +81,7 @@ export const DriveCar = (props) => {
         // console.log(keyMap);
         if (keyMap['ArrowLeft']) {
             if (carMesh.position.x > -4.39) {
-                carMesh.position.x = carMesh.position.x - keyMap['speed'] 
+                carMesh.position.x = carMesh.position.x - keyMap['speed']
             }
         }
         if (keyMap['ArrowRight']) {

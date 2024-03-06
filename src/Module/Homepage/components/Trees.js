@@ -1,9 +1,6 @@
 import React from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
-import useKeyboard from '../hooks/useKeyboard'
-
-
 
 export const Trees = (props) => {
     const { scene } = useThree()
@@ -12,7 +9,7 @@ export const Trees = (props) => {
     const treesArry = []
     let min = 5.40
     let max = 10.50
-    const keyMap = useKeyboard()
+    const { keyMap } = props
 
 
     function initTree(object) {
