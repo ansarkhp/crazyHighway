@@ -11,7 +11,7 @@ export const Homepage = () => {
 
     return (
         <>
-            <Leva collapsed />
+            {/* <Leva collapsed /> */}
             <GameUI />
             <Canvas
                 className='canvas'
