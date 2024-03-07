@@ -46,6 +46,14 @@ export const GameUI = (props) => {
         setTime(0);
     };
 
+    function calculateKM(value, type) {
+        // Calculate the distance for the given value
+        var distance = (value * 35) / .05;
+        if (type === "s") return Math.round(distance)
+        else return distance.toFixed(2)
+
+    }
+    setTimeout(() => { console.log(keyMap.speed, keyMap.distance); }, 60000);
     return (
         <div className='game-wrapper'>
 
@@ -56,7 +64,7 @@ export const GameUI = (props) => {
                 </div>
 
                 <div className='speed'>
-                    <div className='speed-meter'>{keyMap.speed}</div>
+                    <div className='speed-meter'>{calculateKM(keyMap.speed, "s")}</div>
                     <div>MPH</div>
                 </div>
                 <div>
@@ -68,7 +76,7 @@ export const GameUI = (props) => {
 
             <div className='meter-values'>
                 <div className='mt-wrap'>
-                    <div>{keyMap.distance}KM</div>
+                    <div>{calculateKM(keyMap.distance, "d")}KM</div>
                 </div>
                 <div className='mt-wrap'>
                     <div>

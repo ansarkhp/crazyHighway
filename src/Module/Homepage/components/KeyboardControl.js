@@ -1,5 +1,6 @@
 import { useFrame } from '@react-three/fiber'
 import { useEffect, } from 'react'
+import * as THREE from 'three'
 
 export default function KeyboardControl({ keyMap }) {
 
@@ -18,11 +19,17 @@ export default function KeyboardControl({ keyMap }) {
         }
     }, [])
 
+    function distanceInOneSecond(speedKmPerHour, d) {
+        // Convert speed from km/h to km/s
+        var speedKmPerSecond = speedKmPerHour / 3600;
+        return speedKmPerSecond * d;
+    }
+    var clock = new THREE.Clock();
+    var delta = 0;
+
+
     useFrame(() => {
-        // if (keyMap['Space']) {
-        //     console.log("space", keyMap);
-        // }
-        console.log(keyMap);
+        delta = clock.getDelta();
         let speed = keyMap.current.speed
         // console.log("a", keyMap.current.speed);
         if (!keyMap.current.speed) {
@@ -44,11 +51,9 @@ export default function KeyboardControl({ keyMap }) {
             // keyMap.current.speed = speed > 0.045 ? breakDown : 0.045
         }
         if (!keyMap.current.distance) {
-            console.log("hel4444444lo", keyMap.current.distance);
-            keyMap.current.distance = 0.005
+            keyMap.current.distance = 0.00000001
         } else {
-            console.log("hello");
-            keyMap.current.distance = keyMap.current.distance + keyMap.current.speed
+            keyMap.current.distance = keyMap.current.distance + distanceInOneSecond(keyMap.current.speed, delta)
         }
 
     })
