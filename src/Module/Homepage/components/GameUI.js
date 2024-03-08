@@ -53,7 +53,6 @@ export const GameUI = (props) => {
         else return distance.toFixed(2)
 
     }
-    setTimeout(() => { console.log(keyMap.speed, keyMap.distance); }, 60000);
     return (
         <div className='game-wrapper'>
 

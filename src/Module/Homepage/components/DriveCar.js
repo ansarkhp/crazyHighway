@@ -27,7 +27,7 @@ export const DriveCar = (props) => {
             z: 0,
         },
     }) {
-        console.log(object);
+        // console.log(object);
 
         carMesh = object
         carMesh.uid = 'driveCar'

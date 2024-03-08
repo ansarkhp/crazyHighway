@@ -44,11 +44,12 @@ export default function KeyboardControl({ keyMap }) {
             }
         }
         if (keyMap.current['ArrowDown']) {
-            // let breakDown = speed - 0.005
-            if (speed > 0.045) {
-                keyMap.current.speed -= 0.001
+            let breakDown = speed - 0.001
+            if (breakDown <= 0.05) {
+                keyMap.current.speed = 0.05
+            } else if (breakDown > 0.05) {
+                keyMap.current.speed = breakDown
             }
-            // keyMap.current.speed = speed > 0.045 ? breakDown : 0.045
         }
         if (!keyMap.current.distance) {
             keyMap.current.distance = 0.00000001
