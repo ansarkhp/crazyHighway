@@ -13,7 +13,7 @@ export const DriveCar = (props) => {
     createDriveCar({
         object: gltf.scene.clone(),
         pos: {
-            x: 0, y: 0, z: 0
+            x: 1.25, y: 0, z: 0
         },
     })
     function createDriveCar({

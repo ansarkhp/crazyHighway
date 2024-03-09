@@ -23,7 +23,7 @@ export const Homepage = () => {
                 <Lights />
                 <OrbitControls />
                 <Stats className="statsUI" />
-                <Terrain pos={[0, 0, -15]} scale={[10, 0, 40]} color='#656579' />
+                <Terrain name="road" pos={[0, 0, -15]} scale={[10, 0, 40]} color='#656579' />
                 <Terrain pos={[25, 0, -15]} scale={[40, 0, 40]} color='#61b876' />
                 <Terrain pos={[-25, 0, -15]} scale={[40, 0, 40]} color='#61b876' />
                 <KeyboardControl keyMap={keyMap} />

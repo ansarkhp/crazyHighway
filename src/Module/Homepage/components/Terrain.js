@@ -8,11 +8,12 @@ export const Terrain = (props) => {
         scale,
         color = "#FFFFFF",
         physics = false,
-        texture
+        texture,
+        name = ""
     } = props
     return (
         <>
-            <mesh position={[pos[0], pos[1], pos[2]]} scale={[scale[0], scale[1], scale[2]]}>
+            <mesh name={name} position={[pos[0], pos[1], pos[2]]} scale={[scale[0], scale[1], scale[2]]}>
                 {/*
           The thing that gives the mesh its shape
           In this case the shape is a flat plane

@@ -55,7 +55,6 @@ export const SpawnCars = (props) => {
         },
         uid = "",
     }) {
-        console.log(object);
 
         let carMesh = object
         carMesh.uid = uid
@@ -145,7 +144,17 @@ export const SpawnCars = (props) => {
         // console.log("Car spawned!");
     }
 
-    let frameCount = 0;
+    let rp = []
+    scene.traverse(function (child) {
+        if (child.name === "road") {
+            let ls = child.position.x - (child.scale.x / 2)
+            let a = child.scale.x / 4
+            for (let i = 1; i < 5; i++) {
+                rp.push(ls + (i * a) - (a / 2))
+            }
+        }
+    });
+
     useFrame((e) => {
         // console.log(keyMap['distance']);
         spawnCars.forEach((obj) => {
@@ -173,7 +182,7 @@ export const SpawnCars = (props) => {
             createDriveCar({
                 object: gltf.scene.clone(),
                 pos: {
-                    x: (Math.random() * (max - min) + min).toFixed(2), y: 0, z: -36
+                    x: rp[Math.floor(Math.random() * 4)], y: 0, z: -36
                 },
                 uid: e.clock.elapsedTime
             })
