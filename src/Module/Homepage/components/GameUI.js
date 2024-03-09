@@ -53,29 +53,33 @@ export const GameUI = (props) => {
         else return distance.toFixed(2)
 
     }
+
+    // setTimeout(() => { console.log("hello",keyMap.distance, calculateDistance(keyMap.distance)); }, 5000);
+
+
     return (
         <div className='game-wrapper'>
 
             <div className='meter'>
-                <div>
+                {/* <div>
                     <div>Distance</div>
                     <div className='meter-divider' />
-                </div>
+                </div> */}
 
                 <div className='speed'>
-                    <div className='speed-meter'>{calculateKM(keyMap.speed, "s")}</div>
-                    <div>MPH</div>
+                    <div className='speed-meter'>342</div>
+                    <div>Coins</div>
                 </div>
-                <div>
+                {/* <div>
                     <div onClick={reset}>Time</div>
                     <div className='meter-divider' />
-                </div>
+                </div> */}
 
             </div>
 
-            <div className='meter-values'>
+            {/* <div className='meter-values'>
                 <div className='mt-wrap'>
-                    <div>{calculateKM(keyMap.distance, "d")}KM</div>
+                    <div>{calculateDistance(keyMap.distance)}KM</div>
                 </div>
                 <div className='mt-wrap'>
                     <div>
@@ -84,7 +88,7 @@ export const GameUI = (props) => {
                     </div>
                 </div>
 
-            </div>
+            </div> */}
         </div>
     )
 

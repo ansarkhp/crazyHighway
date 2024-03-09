@@ -1,6 +1,7 @@
 import React from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
+import * as THREE from 'three'
 
 export const SpawnCars = (props) => {
     const { scene } = useThree()
@@ -62,8 +63,34 @@ export const SpawnCars = (props) => {
         if (Am) {
             scene.remove(Am)
         }
+        const color = new THREE.Color();
+        const cArray = [
+            "#811331",
+            "#FF00FF",
+            "#FA8072",
+            "#008080",
+            "#C19A6B",
+            "#818589",
+            "#FAFA33",
+            "#F3A8C0",
+            "#D70040",
+            "#02192B",
+            "#2173B8",
+            "#C8CCCE",
+            "#FFF200",
+            "#7FF334"
+        ];
+
+        // Set the color using the hexadecimal value
+        const r = Math.floor(Math.random() * cArray.length);
+        color.set(cArray[r]);
         carMesh.traverse(function (child) {
             if (child.isMesh === true && child.material !== null) {
+                if (child.name === "Mesh_body") {
+                    const material = child.material.clone();
+                    material.color = color
+                    child.material = material;
+                }
                 child.material.metalness = 0;
                 child.material.roughness = 0.5;
                 child.material.clearcoat = 2;
@@ -113,25 +140,44 @@ export const SpawnCars = (props) => {
         // world.addBody(carBody)
         // carLoaded = true
     }
+    function spawnCar() {
+        // Code to create and add a new car to the game
+        // console.log("Car spawned!");
+    }
 
-    useFrame((a, b, c) => {
+    let frameCount = 0;
+    useFrame((e) => {
+        // console.log(keyMap['distance']);
+        spawnCars.forEach((obj) => {
+            obj.update(keyMap['speed'])
+        })
+        // frameCount++;
 
-        // spawnCars.forEach((obj) => {
-        //     obj.update(keyMap['speed'])
-        // })
-        let random = Math.random() < 0.008
-
-        // console.log(a, b, c);
-        // if (random) {
-
+        // Example: Spawn a car every 100 frames
+        // const spawnInterval = 1000;
+        // if (frameCount % spawnInterval === 0) {
+        //     spawnCar();
         //     createDriveCar({
         //         object: gltf.scene.clone(),
         //         pos: {
         //             x: (Math.random() * (max - min) + min).toFixed(2), y: 0, z: -36
         //         },
+        //         uid: e.clock.elapsedTime
         //     })
-
         // }
+        const r = keyMap['speed'] / 14
+        let random = Math.random() < r
+        // console.log(a, b, c);
+        if (random) {
+
+            createDriveCar({
+                object: gltf.scene.clone(),
+                pos: {
+                    x: (Math.random() * (max - min) + min).toFixed(2), y: 0, z: -36
+                },
+                uid: e.clock.elapsedTime
+            })
+        }
 
     })
 

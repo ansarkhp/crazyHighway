@@ -31,7 +31,7 @@ export const Homepage = () => {
                     <Dividers keyMap={keyMap.current} />
                     <Trees keyMap={keyMap.current} />
                     <DriveCar keyMap={keyMap.current} />
-                    <SpawnCars />
+                    <SpawnCars keyMap={keyMap.current} />
                 </Suspense>
             </Canvas>
         </>
