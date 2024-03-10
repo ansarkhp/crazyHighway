@@ -11,37 +11,6 @@ export const SpawnCars = (props) => {
     const { keyMap } = props
     let spawnCars = []
 
-    let min = 5
-    let max = -5
-
-    // createDriveCar({
-    //     object: gltf.scene.clone(),
-    //     pos: {
-    //         x: 1.25, y: 0, z: 0
-    //     },
-    //     uid:"1"
-    // })
-    createDriveCar({
-        object: gltf.scene.clone(),
-        pos: {
-            x: (Math.random() * (max - min) + min).toFixed(2), y: 0, z: -36
-        },
-        uid: "2"
-    })
-    // createDriveCar({
-    //     object: gltf.scene.clone(),
-    //     pos: {
-    //         x: -1.25, y: 0, z: 0
-    //     },
-    //     uid:"-1"
-    // })
-    // createDriveCar({
-    //     object: gltf.scene.clone(),
-    //     pos: {
-    //         x: -3.75, y: 0, z: 0
-    //     },
-    //     uid:"-2"
-    // })
 
     function createDriveCar({
         object,
@@ -155,30 +124,39 @@ export const SpawnCars = (props) => {
         }
     });
 
+
+    let sp = [0]
+
+    for (let step = 0; step < 100; step++) {
+        // Runs 5 times, with values of step 0 through 4.
+        let max = 20
+        let min = 3
+        let b = Math.floor(Math.random() * (max - min + 1)) + min
+
+        let c = sp.at(-1) + b
+        // console.log(c)
+        sp.push(c)
+    }
+
+    const updateSpawnCar = () => {
+        sp.shift()
+        let max = 20
+        let min = 3
+        let b = Math.floor(Math.random() * (max - min + 1)) + min
+
+        let c = sp.at(-1) + b
+        sp.push(c)
+    }
+
     useFrame((e) => {
         // console.log(keyMap['distance']);
         spawnCars.forEach((obj) => {
             obj.update(keyMap['speed'])
-        })
-        // frameCount++;
+        }) 
 
-        // Example: Spawn a car every 100 frames
-        // const spawnInterval = 1000;
-        // if (frameCount % spawnInterval === 0) {
-        //     spawnCar();
-        //     createDriveCar({
-        //         object: gltf.scene.clone(),
-        //         pos: {
-        //             x: (Math.random() * (max - min) + min).toFixed(2), y: 0, z: -36
-        //         },
-        //         uid: e.clock.elapsedTime
-        //     })
-        // }
-        const r = keyMap['speed'] / 14
-        let random = Math.random() < r
-        // console.log(a, b, c);
-        if (random) {
-
+        console.log(keyMap['distance'], sp);
+        if (keyMap['distance'] >= sp[0]) {
+            updateSpawnCar()
             createDriveCar({
                 object: gltf.scene.clone(),
                 pos: {
