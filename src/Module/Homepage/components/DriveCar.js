@@ -80,12 +80,12 @@ export const DriveCar = (props) => {
 
         // console.log(keyMap);
         if (keyMap['ArrowLeft']) {
-            if (carMesh.position.x > -4.39) {
+            if (carMesh.position.x > -4.15) {
                 carMesh.position.x = carMesh.position.x - keyMap['speed']
             }
         }
         if (keyMap['ArrowRight']) {
-            if (carMesh.position.x < 4.39) {
+            if (carMesh.position.x < 4.15) {
                 carMesh.position.x = carMesh.position.x + keyMap['speed']
             }
 

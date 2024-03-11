@@ -1,7 +1,7 @@
 import React, { Suspense, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Stats, PerspectiveCamera } from '@react-three/drei'
-import { Dividers, DriveCar, GameUI, Lights, SpawnCars, Terrain, Trees } from './components'
+import { Dividers, DriveCar, GameUI, Lights, Road, SpawnCars, Terrain, Trees } from './components'
 import { Leva } from 'leva'
 import * as THREE from 'three'
 import KeyboardControl from './components/KeyboardControl'
@@ -23,10 +23,11 @@ export const Homepage = () => {
                 <Lights />
                 <OrbitControls />
                 <Stats className="statsUI" />
-                <Terrain name="road" pos={[0, 0, -15]} scale={[10, 0, 40]} color='#656579' />
+                <KeyboardControl keyMap={keyMap} />
+                <Road keyMap={keyMap.current}/>
+                <Terrain  name="road" pos={[0, 0, -15]} scale={[10, 0, 40]} color='#656579' keyMap={keyMap.current} />
                 <Terrain pos={[25, 0, -15]} scale={[40, 0, 40]} color='#61b876' />
                 <Terrain pos={[-25, 0, -15]} scale={[40, 0, 40]} color='#61b876' />
-                <KeyboardControl keyMap={keyMap} />
                 <Suspense fallback={null} >
                     <Dividers keyMap={keyMap.current} />
                     <Trees keyMap={keyMap.current} />
