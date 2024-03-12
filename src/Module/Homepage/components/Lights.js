@@ -99,7 +99,7 @@ export const Lights = (props) => {
 
             <ambientLight ref={ambientRef} intensity={1} color={'#b4b188'} />
             <directionalLight castShadow={true} ref={directionalRef} position={[1, 1, 1]} color={'#ffffff'} />
-            <pointLight ref={pointRef} position={[2, 0, 0]} color="#ffffff" />
+            {/* <pointLight ref={pointRef} position={[2, 0, 0]} color="#ffffff" /> */}
             <spotLight ref={spotRef} position={[3, 2.5, 1]} color="#ffffff" />
 
         </>
