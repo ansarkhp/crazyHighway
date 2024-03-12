@@ -19,12 +19,6 @@ export default function KeyboardControl({ keyMap }) {
         }
     }, [])
 
-    function distanceInOneSecond(speedKmPerHour, d) {
-        // Convert speed from km/h to km/s
-        var speedKmPerSecond = speedKmPerHour / 3600;
-        return speedKmPerSecond * d;
-    }
-
     // setTimeout(() => { console.log("hello", keyMap.current.distance); }, 4000);
     let s = 0
     useFrame((_, delta) => {

@@ -75,20 +75,33 @@ export const DriveCar = (props) => {
         // world.addBody(carBody)
         // carLoaded = true
     }
-
+    let las = 0.01
+    let lac = 1
+    let ras = 0.01
+    let rac = 1
     useFrame(() => {
 
-        // console.log(keyMap);
         if (keyMap['ArrowLeft']) {
             if (carMesh.position.x > -4.15) {
-                carMesh.position.x = carMesh.position.x - keyMap['speed']
+                lac = lac + .8
+                let v = (keyMap['speed'] / 20) * lac
+                if (keyMap['speed'] >= las) las = v >= keyMap['speed'] ? keyMap['speed'] : v
+                carMesh.position.x = carMesh.position.x - las
             }
+        } else {
+            lac = 1
+            las = 0.08
         }
         if (keyMap['ArrowRight']) {
             if (carMesh.position.x < 4.15) {
-                carMesh.position.x = carMesh.position.x + keyMap['speed']
+                rac = rac + .8
+                let v = (keyMap['speed'] / 20) * rac
+                if (keyMap['speed'] >= ras) ras = v >= keyMap['speed'] ? keyMap['speed'] : v
+                carMesh.position.x = carMesh.position.x + ras
             }
-
+        } else {
+            rac = 1
+            ras = 0.08
         }
     })
 

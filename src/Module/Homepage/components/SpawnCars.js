@@ -154,7 +154,6 @@ export const SpawnCars = (props) => {
             obj.update(keyMap['speed'])
         }) 
 
-        console.log(keyMap['distance'], sp);
         if (keyMap['distance'] >= sp[0]) {
             updateSpawnCar()
             createDriveCar({
