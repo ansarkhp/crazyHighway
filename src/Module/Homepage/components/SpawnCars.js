@@ -6,21 +6,15 @@ import * as THREE from 'three'
 export const SpawnCars = (props) => {
     const { scene } = useThree()
     const gltf = useGLTF('models/race.glb')
-    let speed = 0.045
-    // let carMesh
+    const coinGltf = useGLTF('models/coin.glb')
     const { keyMap } = props
     let spawnCars = []
 
 
-    function createDriveCar({
+    function createCar({
         object,
         pos = {
             x: 0, y: 0.5, z: 0
-        },
-        quat = {
-            x: 0,
-            y: 0,
-            z: 0,
         },
         uid = "",
     }) {
@@ -77,7 +71,6 @@ export const SpawnCars = (props) => {
         carMesh.update = (speed) => {
 
             carMesh.position.z += speed
-            // console.log(mesh.position.z);
 
             if (carMesh.position.z > 5.5) {
                 var index = spawnCars.indexOf(carMesh);
@@ -108,9 +101,39 @@ export const SpawnCars = (props) => {
         // world.addBody(carBody)
         // carLoaded = true
     }
-    function spawnCar() {
-        // Code to create and add a new car to the game
-        // console.log("Car spawned!");
+
+    function createCoin({
+        object,
+        pos = {
+            x: 0, y: 0.5, z: 0
+        },
+        uid = "",
+    }) {
+
+        let carMesh = object
+        carMesh.uid = uid
+        const Am = scene.children.find(v => v.uid === uid)
+        if (Am) {
+            scene.remove(Am)
+        }
+        carMesh.position.set(pos.x, pos.y, pos.z)
+        carMesh.quaternion.set(0, 0, 0, 0)
+        scene.add(carMesh)
+
+        carMesh.update = (speed) => {
+
+            carMesh.position.z += speed
+            carMesh.rotation.y -= 0.02;
+
+            if (carMesh.position.z > 5.5) {
+                var index = spawnCars.indexOf(carMesh);
+                if (index !== -1) {
+                    spawnCars.splice(index, 1);
+                }
+                scene.remove(carMesh)
+            }
+        }
+        spawnCars.push(carMesh)
     }
 
     let rp = []
@@ -125,44 +148,76 @@ export const SpawnCars = (props) => {
     });
 
 
-    let sp = [0]
+
+    let sp = [{ uid: 0, posX: rp[Math.floor(Math.random() * 4)], isCar: true, posS: 0, lengthX: 3 }]
 
     for (let step = 0; step < 100; step++) {
-        // Runs 5 times, with values of step 0 through 4.
-        let max = 20
-        let min = 3
-        let b = Math.floor(Math.random() * (max - min + 1)) + min
+        let max = 15
+        let obj = {
+            uid: step + 1,
+            posX: rp[Math.floor(Math.random() * 4)],
+            isCar: Math.random() < 0.85,
+        }
 
-        let c = sp.at(-1) + b
-        // console.log(c)
-        sp.push(c)
+
+        if (sp.at(-1).posX === obj.posX) {
+            let min = sp.at(-1).lengthX
+            obj.posS = sp.at(-1).posS + Math.floor(Math.random() * (max - min + 1)) + min
+            obj.lengthX = obj.isCar ? 3 : Math.floor(Math.random() * (8 - 3 + 1)) + 3
+        } else {
+            obj.posS = sp.at(-1).posS + Math.floor(Math.random() * (max - 2 + 1)) + 2
+            obj.lengthX = obj.isCar ? 3 : Math.floor(Math.random() * (8 - 3 + 1)) + 3
+        }
+        sp.push(obj)
     }
 
-    const updateSpawnCar = () => {
+    const updateSpawnElement = () => {
         sp.shift()
-        let max = 20
-        let min = 3
-        let b = Math.floor(Math.random() * (max - min + 1)) + min
+        let max = 15
+        let obj = {
+            uid: sp.at(-1).uid + 1,
+            posX: rp[Math.floor(Math.random() * 4)],
+            isCar: Math.random() < 0.85
+        }
 
-        let c = sp.at(-1) + b
-        sp.push(c)
+
+        if (sp.at(-1).posX === obj.posX) {
+            let min = sp.at(-1).lengthX + 2
+            obj.posS = sp.at(-1).posS + Math.floor(Math.random() * (max - min + 1)) + min
+            obj.lengthX = obj.isCar ? 3 : Math.floor(Math.random() * (6 - 4 + 1)) + 4
+        } else {
+            obj.posS = sp.at(-1).posS + Math.floor(Math.random() * (max - 2 + 1)) + 2
+            obj.lengthX = obj.isCar ? 3 : Math.floor(Math.random() * (6 - 4 + 1)) + 4
+        }
+        sp.push(obj)
     }
 
     useFrame((e) => {
-        // console.log(keyMap['distance']);
         spawnCars.forEach((obj) => {
             obj.update(keyMap['speed'])
-        }) 
-
-        if (keyMap['distance'] >= sp[0]) {
-            updateSpawnCar()
-            createDriveCar({
-                object: gltf.scene.clone(),
-                pos: {
-                    x: rp[Math.floor(Math.random() * 4)], y: 0, z: -36
-                },
-                uid: e.clock.elapsedTime
-            })
+        })
+        if (sp.length > 0 && (keyMap['distance'] >= sp[0].posS)) {
+            let spawnElement = sp[0]
+            updateSpawnElement()
+            if (spawnElement.isCar) {
+                createCar({
+                    object: gltf.scene.clone(),
+                    pos: {
+                        x: spawnElement.posX, y: 0, z: -36
+                    },
+                    uid: spawnElement.uid
+                })
+            } else {
+                for (let step = 0; step < spawnElement.lengthX; step++) {
+                    createCoin({
+                        object: coinGltf.scene.clone(),
+                        pos: {
+                            x: spawnElement.posX, y: .5, z: -36 - step
+                        },
+                        uid: `c${spawnElement.uid}-${step}`
+                    })
+                }
+            }
         }
 
     })
