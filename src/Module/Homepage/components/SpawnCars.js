@@ -7,7 +7,7 @@ export const SpawnCars = (props) => {
     const { scene } = useThree()
     const gltf = useGLTF('models/race.glb')
     const coinGltf = useGLTF('models/coin.glb')
-    const { keyMap } = props
+    const { keyMap, state } = props
     let spawnCars = []
 
 
@@ -66,11 +66,13 @@ export const SpawnCars = (props) => {
         // carMesh = object
         carMesh.position.set(pos.x, pos.y, pos.z)
         carMesh.quaternion.set(0, 0, 0, 0)
+        carMesh.name = "spawnCar"
         scene.add(carMesh)
 
         carMesh.update = (speed) => {
 
             carMesh.position.z += speed
+            carMesh.boox.setFromObject(carMesh)
 
             if (carMesh.position.z > 5.5) {
                 var index = spawnCars.indexOf(carMesh);
@@ -80,26 +82,23 @@ export const SpawnCars = (props) => {
                 scene.remove(carMesh)
             }
         }
-        spawnCars.push(carMesh)
-        // gui.add(carMesh.position, 'x', -10, 10, .1)
-        // gui.add(carMesh.position, 'y', -10, 10, .1)
-        // gui.add(carMesh.position, 'z', -10, 10, .1)
-        // carMesh.position.y = 0
-        // console.log(object.scale);
-        // carMesh.scale.set(.5, .5, .5)
 
-        // const result = threeToCannon(carMesh, { type: ShapeType.HULL });
-        // const { shape, offset, quaternion } = result;
-        // // console.log(result);
-        // carBody = new CANNON.Body({ mass: 10, material: defaultMaterial })
-        // carBody.addShape(shape)
-        // carBody.name = "car"
-        // carBody.quaternion.set(0, -.7, -.7, 0)
-        // // console.log(carMesh);
-        // carBody.position.copy(carMesh.position)
-        // // carBody.rotation.set(new THREE.Vector3(0, 0, 0));
-        // world.addBody(carBody)
-        // carLoaded = true
+
+
+        let carBox = new THREE.Box3().setFromObject(carMesh);
+        let helper = new THREE.Box3Helper(carBox, new THREE.Color(0, 255, 0));
+        helper.uid = `${uid}box`
+
+        const Alm = scene.children.find(v => v.uid === `${uid}box`)
+        if (Alm) {
+            scene.remove(Alm)
+        }
+        scene.add(helper);
+        carMesh.boox = carBox
+
+        spawnCars.push(carMesh)
+
+
     }
 
     function createCoin({
@@ -118,12 +117,14 @@ export const SpawnCars = (props) => {
         }
         carMesh.position.set(pos.x, pos.y, pos.z)
         carMesh.quaternion.set(0, 0, 0, 0)
+        carMesh.name = "spawnCoin"
         scene.add(carMesh)
 
         carMesh.update = (speed) => {
 
             carMesh.position.z += speed
             carMesh.rotation.y -= 0.02;
+            carMesh.boox.setFromObject(carMesh)
 
             if (carMesh.position.z > 5.5) {
                 var index = spawnCars.indexOf(carMesh);
@@ -133,6 +134,17 @@ export const SpawnCars = (props) => {
                 scene.remove(carMesh)
             }
         }
+        let carBox = new THREE.Box3().setFromObject(carMesh);
+        let helper = new THREE.Box3Helper(carBox, new THREE.Color(0, 255, 0));
+        helper.uid = `${uid}box`
+
+        const Alm = scene.children.find(v => v.uid === `${uid}box`)
+        if (Alm) {
+            scene.remove(Alm)
+        }
+        scene.add(helper);
+        carMesh.boox = carBox
+
         spawnCars.push(carMesh)
     }
 
@@ -192,9 +204,31 @@ export const SpawnCars = (props) => {
         sp.push(obj)
     }
 
+    const collisionCheck = (obj) => {
+        if (obj.name === "spawnCar") {
+            if (obj.position.z >= -3) {
+                let Box = obj.boox
+                var collision = state.carBox.intersectsBox(Box);
+                if (collision == true) {
+                    console.log("spawn car collision");
+                }
+            }
+        } else {
+            if (obj.position.z >= -3) {
+                let Box = obj.boox
+                var collision = state.carBox.intersectsBox(Box);
+                if (collision == true) {
+                    console.log("coin collision");
+                }
+            }
+        }
+    }
+
+
     useFrame((e) => {
         spawnCars.forEach((obj) => {
             obj.update(keyMap['speed'])
+            collisionCheck(obj)
         })
         if (sp.length > 0 && (keyMap['distance'] >= sp[0].posS)) {
             let spawnElement = sp[0]

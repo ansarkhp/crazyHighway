@@ -8,6 +8,7 @@ import KeyboardControl from './components/KeyboardControl'
 
 export const Homepage = () => {
     const keyMap = useRef({})
+    const state = useRef({})
     console.log("reloading....");
 
     return (
@@ -24,15 +25,15 @@ export const Homepage = () => {
                 <OrbitControls />
                 <Stats className="statsUI" />
                 <KeyboardControl keyMap={keyMap} />
-                <Road keyMap={keyMap.current}/>
-                <Terrain  name="road" pos={[0, 0, -15]} scale={[10, 0, 40]} color='#656579' keyMap={keyMap.current} />
+                <Road keyMap={keyMap.current} />
+                <Terrain name="road" pos={[0, 0, -15]} scale={[10, 0, 40]} color='#656579' keyMap={keyMap.current} />
                 <Terrain pos={[25, 0, -15]} scale={[40, 0, 40]} color='#61b876' />
                 <Terrain pos={[-25, 0, -15]} scale={[40, 0, 40]} color='#61b876' />
                 <Suspense fallback={null} >
                     <Dividers keyMap={keyMap.current} />
                     <Trees keyMap={keyMap.current} />
-                    <DriveCar keyMap={keyMap.current} />
-                    <SpawnCars keyMap={keyMap.current} />
+                    <DriveCar keyMap={keyMap.current} state={state} />
+                    <SpawnCars keyMap={keyMap.current} state={state.current} />
                 </Suspense>
             </Canvas>
         </>

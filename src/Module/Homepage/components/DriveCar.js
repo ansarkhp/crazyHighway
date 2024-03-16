@@ -6,9 +6,9 @@ import * as THREE from 'three'
 export const DriveCar = (props) => {
     const { scene } = useThree()
     const gltf = useGLTF('models/race.glb')
-    let speed = 0.045
     let carMesh
-    const { keyMap } = props
+    let carBox
+    var { keyMap, state } = props
 
     createDriveCar({
         object: gltf.scene.clone(),
@@ -21,13 +21,7 @@ export const DriveCar = (props) => {
         pos = {
             x: 0, y: 0.5, z: 0
         },
-        quat = {
-            x: 0,
-            y: 0,
-            z: 0,
-        },
     }) {
-        // console.log(object);
 
         carMesh = object
         carMesh.uid = 'driveCar'
@@ -44,37 +38,22 @@ export const DriveCar = (props) => {
             }
         });
 
-
-        // let bbox = new THREE.Box3().setFromObject(carMesh);
-        // let helper = new THREE.Box3Helper(bbox, new THREE.Color(0, 255, 0));
-        // let size = bbox.getSize(new THREE.Vector3());
-        // scene.add(helper);
-        // console.log(size);
-
         // carMesh = object
         carMesh.position.set(pos.x, pos.y, pos.z)
         carMesh.quaternion.set(0, 0, 0, 0)
         scene.add(carMesh)
-        // gui.add(carMesh.position, 'x', -10, 10, .1)
-        // gui.add(carMesh.position, 'y', -10, 10, .1)
-        // gui.add(carMesh.position, 'z', -10, 10, .1)
-        // carMesh.position.y = 0
-        // console.log(object.scale);
-        // carMesh.scale.set(.5, .5, .5)
+        carBox = new THREE.Box3().setFromObject(carMesh);
+        let helper = new THREE.Box3Helper(carBox, new THREE.Color(0, 255, 0));
+        helper.uid = 'driveCarBox'
 
-        // const result = threeToCannon(carMesh, { type: ShapeType.HULL });
-        // const { shape, offset, quaternion } = result;
-        // // console.log(result);
-        // carBody = new CANNON.Body({ mass: 10, material: defaultMaterial })
-        // carBody.addShape(shape)
-        // carBody.name = "car"
-        // carBody.quaternion.set(0, -.7, -.7, 0)
-        // // console.log(carMesh);
-        // carBody.position.copy(carMesh.position)
-        // // carBody.rotation.set(new THREE.Vector3(0, 0, 0));
-        // world.addBody(carBody)
-        // carLoaded = true
+        const Alm = scene.children.find(v => v.uid === 'driveCarBox')
+        if (Alm) {
+            scene.remove(Alm)
+        }
+        scene.add(helper);
+        scene.add(carMesh)
     }
+
     let las = 0.01
     let lac = 1
     let ras = 0.01
@@ -87,6 +66,7 @@ export const DriveCar = (props) => {
                 let v = (keyMap['speed'] / 20) * lac
                 if (keyMap['speed'] >= las) las = v >= keyMap['speed'] ? keyMap['speed'] : v
                 carMesh.position.x = carMesh.position.x - las
+                carBox.setFromObject(carMesh)
             }
         } else {
             lac = 1
@@ -98,11 +78,13 @@ export const DriveCar = (props) => {
                 let v = (keyMap['speed'] / 20) * rac
                 if (keyMap['speed'] >= ras) ras = v >= keyMap['speed'] ? keyMap['speed'] : v
                 carMesh.position.x = carMesh.position.x + ras
+                carBox.setFromObject(carMesh)
             }
         } else {
             rac = 1
             ras = 0.08
         }
+        state.current.carBox = carBox
     })
 
 }
