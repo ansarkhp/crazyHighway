@@ -79,6 +79,10 @@ export const SpawnCars = (props) => {
                 if (index !== -1) {
                     spawnCars.splice(index, 1);
                 }
+                const Alm = scene.children.find(v => v.uid === `${uid}box`)
+                if (Alm) {
+                    scene.remove(Alm)
+                }
                 scene.remove(carMesh)
             }
         }
@@ -86,14 +90,14 @@ export const SpawnCars = (props) => {
 
 
         let carBox = new THREE.Box3().setFromObject(carMesh);
-        let helper = new THREE.Box3Helper(carBox, new THREE.Color(0, 255, 0));
-        helper.uid = `${uid}box`
+        // let helper = new THREE.Box3Helper(carBox, new THREE.Color(0, 255, 0));
+        // helper.uid = `${uid}box`
 
-        const Alm = scene.children.find(v => v.uid === `${uid}box`)
-        if (Alm) {
-            scene.remove(Alm)
-        }
-        scene.add(helper);
+        // const Alm = scene.children.find(v => v.uid === `${uid}box`)
+        // if (Alm) {
+        //     scene.remove(Alm)
+        // }
+        // scene.add(helper);
         carMesh.boox = carBox
 
         spawnCars.push(carMesh)
@@ -131,18 +135,22 @@ export const SpawnCars = (props) => {
                 if (index !== -1) {
                     spawnCars.splice(index, 1);
                 }
+                const Alm = scene.children.find(v => v.uid === `${uid}box`)
+                if (Alm) {
+                    scene.remove(Alm)
+                }
                 scene.remove(carMesh)
             }
         }
         let carBox = new THREE.Box3().setFromObject(carMesh);
-        let helper = new THREE.Box3Helper(carBox, new THREE.Color(0, 255, 0));
-        helper.uid = `${uid}box`
+        // let helper = new THREE.Box3Helper(carBox, new THREE.Color(0, 255, 0));
+        // helper.uid = `${uid}box`
 
-        const Alm = scene.children.find(v => v.uid === `${uid}box`)
-        if (Alm) {
-            scene.remove(Alm)
-        }
-        scene.add(helper);
+        // const Alm = scene.children.find(v => v.uid === `${uid}box`)
+        // if (Alm) {
+        //     scene.remove(Alm)
+        // }
+        // scene.add(helper);
         carMesh.boox = carBox
 
         spawnCars.push(carMesh)

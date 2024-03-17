@@ -43,14 +43,14 @@ export const DriveCar = (props) => {
         carMesh.quaternion.set(0, 0, 0, 0)
         scene.add(carMesh)
         carBox = new THREE.Box3().setFromObject(carMesh);
-        let helper = new THREE.Box3Helper(carBox, new THREE.Color(0, 255, 0));
-        helper.uid = 'driveCarBox'
+        // let helper = new THREE.Box3Helper(carBox, new THREE.Color(0, 255, 0));
+        // helper.uid = 'driveCarBox'
 
-        const Alm = scene.children.find(v => v.uid === 'driveCarBox')
-        if (Alm) {
-            scene.remove(Alm)
-        }
-        scene.add(helper);
+        // const Alm = scene.children.find(v => v.uid === 'driveCarBox')
+        // if (Alm) {
+        //     scene.remove(Alm)
+        // }
+        // scene.add(helper);
         scene.add(carMesh)
     }
 
