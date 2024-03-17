@@ -7,6 +7,8 @@ export const SpawnCars = (props) => {
     const { scene } = useThree()
     const gltf = useGLTF('models/race.glb')
     const coinGltf = useGLTF('models/coin.glb')
+    let audio = new Audio('sound/coin-collide.wav')
+    console.log(audio);
     const { keyMap, state } = props
     let spawnCars = []
     let collidedCoinArry = []
@@ -236,7 +238,9 @@ export const SpawnCars = (props) => {
                 let Box = obj.boox
                 var collision = state.carBox.intersectsBox(Box);
                 if (collision == true) {
-                    console.log("coin collision");
+                    if (!state.collidedCoin?.some((e) => e === obj.uid)) {
+                        audio.cloneNode(true).play();
+                    }
                     if (state.collidedCoin) {
                         function onlyUnique(value, index, self) {
                             return self.indexOf(value) === index;
