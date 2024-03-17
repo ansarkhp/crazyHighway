@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 export const GameUI = (props) => {
 
-    const { keyMap } = props
+    const { keyMap, state } = props
 
     // console.log(appState);
     // state to store time
@@ -67,7 +67,7 @@ export const GameUI = (props) => {
                 </div> */}
 
                 <div className='speed'>
-                    <div className='speed-meter'>342</div>
+                    <div className='speed-meter'>{state.collidedCoin?.length ?? 0}</div>
                     <div>Coins</div>
                 </div>
                 {/* <div>

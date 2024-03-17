@@ -14,7 +14,7 @@ export const Homepage = () => {
     return (
         <>
             {/* <Leva collapsed /> */}
-            <GameUI keyMap={keyMap.current} />
+            <GameUI keyMap={keyMap.current} state={state.current}/>
             <Canvas
                 className='canvas'
                 style={{ background: 'linear-gradient( 180deg ,#81adec,#d7e6f9, #d7e6f9)' }}

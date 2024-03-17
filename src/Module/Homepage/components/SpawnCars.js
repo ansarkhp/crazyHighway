@@ -9,6 +9,7 @@ export const SpawnCars = (props) => {
     const coinGltf = useGLTF('models/coin.glb')
     const { keyMap, state } = props
     let spawnCars = []
+    let collidedCoinArry = []
 
 
     function createCar({
@@ -135,6 +136,10 @@ export const SpawnCars = (props) => {
                 if (index !== -1) {
                     spawnCars.splice(index, 1);
                 }
+                var i = collidedCoinArry.indexOf(carMesh);
+                if (i !== -1) {
+                    collidedCoinArry.splice(i, 1);
+                }
                 const Alm = scene.children.find(v => v.uid === `${uid}box`)
                 if (Alm) {
                     scene.remove(Alm)
@@ -142,6 +147,11 @@ export const SpawnCars = (props) => {
                 scene.remove(carMesh)
             }
         }
+        carMesh.collideUpdate = (speed) => {
+
+            carMesh.position.y += speed
+        }
+
         let carBox = new THREE.Box3().setFromObject(carMesh);
         // let helper = new THREE.Box3Helper(carBox, new THREE.Color(0, 255, 0));
         // helper.uid = `${uid}box`
@@ -227,6 +237,17 @@ export const SpawnCars = (props) => {
                 var collision = state.carBox.intersectsBox(Box);
                 if (collision == true) {
                     console.log("coin collision");
+                    if (state.collidedCoin) {
+                        function onlyUnique(value, index, self) {
+                            return self.indexOf(value) === index;
+                        }
+                        var unique = [...state.collidedCoin, obj.uid].filter(onlyUnique);
+                        state.collidedCoin = unique
+                        collidedCoinArry = [...collidedCoinArry, obj].filter(onlyUnique);
+                    } else {
+                        state.collidedCoin = [obj.uid]
+                        collidedCoinArry = [obj]
+                    }
                 }
             }
         }
@@ -237,6 +258,9 @@ export const SpawnCars = (props) => {
         spawnCars.forEach((obj) => {
             obj.update(keyMap['speed'])
             collisionCheck(obj)
+        })
+        collidedCoinArry.forEach((obj) => {
+            obj.collideUpdate(keyMap['speed'])
         })
         if (sp.length > 0 && (keyMap['distance'] >= sp[0].posS)) {
             let spawnElement = sp[0]
