@@ -20,7 +20,6 @@ export const Homepage = () => {
                 className='canvas'
                 style={{ background: 'linear-gradient( 180deg ,#81adec,#d7e6f9, #d7e6f9)' }}
             >
-
                 <PerspectiveCamera position={[0, 2.7, 5]} fov={75} near={0.1} far={100} makeDefault />
                 <Lights />
                 <OrbitControls />

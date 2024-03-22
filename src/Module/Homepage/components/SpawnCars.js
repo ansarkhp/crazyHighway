@@ -2,17 +2,17 @@ import React from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
+import { useStore } from '@/state/useStore'
 
 export const SpawnCars = (props) => {
     const { scene } = useThree()
     const gltf = useGLTF('models/race.glb')
     const coinGltf = useGLTF('models/coin.glb')
     let audio = new Audio('sound/coin-collide.wav')
-    console.log(audio);
     const { keyMap, state } = props
     let spawnCars = []
     let collidedCoinArry = []
-
+    const { gameStarted } = useStore()
 
     function createCar({
         object,
@@ -259,37 +259,39 @@ export const SpawnCars = (props) => {
 
 
     useFrame((e) => {
-        spawnCars.forEach((obj) => {
-            obj.update(keyMap['speed'])
-            collisionCheck(obj)
-        })
-        collidedCoinArry.forEach((obj) => {
-            obj.collideUpdate(keyMap['speed'])
-        })
-        if (sp.length > 0 && (keyMap['distance'] >= sp[0].posS)) {
-            let spawnElement = sp[0]
-            updateSpawnElement()
-            if (spawnElement.isCar) {
-                createCar({
-                    object: gltf.scene.clone(),
-                    pos: {
-                        x: spawnElement.posX, y: 0, z: -36
-                    },
-                    uid: spawnElement.uid
-                })
-            } else {
-                for (let step = 0; step < spawnElement.lengthX; step++) {
-                    createCoin({
-                        object: coinGltf.scene.clone(),
+        if (gameStarted) {
+
+            spawnCars.forEach((obj) => {
+                obj.update(keyMap['speed'])
+                collisionCheck(obj)
+            })
+            collidedCoinArry.forEach((obj) => {
+                obj.collideUpdate(keyMap['speed'])
+            })
+            if (sp.length > 0 && (keyMap['distance'] >= sp[0].posS)) {
+                let spawnElement = sp[0]
+                updateSpawnElement()
+                if (spawnElement.isCar) {
+                    createCar({
+                        object: gltf.scene.clone(),
                         pos: {
-                            x: spawnElement.posX, y: .5, z: -36 - step
+                            x: spawnElement.posX, y: 0, z: -36
                         },
-                        uid: `c${spawnElement.uid}-${step}`
+                        uid: spawnElement.uid
                     })
+                } else {
+                    for (let step = 0; step < spawnElement.lengthX; step++) {
+                        createCoin({
+                            object: coinGltf.scene.clone(),
+                            pos: {
+                                x: spawnElement.posX, y: .5, z: -36 - step
+                            },
+                            uid: `c${spawnElement.uid}-${step}`
+                        })
+                    }
                 }
             }
         }
-
     })
 
 }

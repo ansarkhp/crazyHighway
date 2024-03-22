@@ -1,3 +1,4 @@
+import { useStore } from '@/state/useStore'
 import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
@@ -7,6 +8,7 @@ export const Road = (props) => {
     } = props
     const { scene } = useThree()
     let roadArry = []
+    const { gameStarted } = useStore()
 
 
     const material = new THREE.MeshBasicMaterial({ color: 0xc8c8c8 });
@@ -101,15 +103,11 @@ export const Road = (props) => {
     createCentralLine()
 
     useFrame((e) => {
-        try {
+        if (gameStarted) {
             roadArry.forEach((obj) => {
                 obj.update(keyMap['speed'])
             })
-        } catch (error) {
-            console.log(error);
         }
-
-
     })
 
 }

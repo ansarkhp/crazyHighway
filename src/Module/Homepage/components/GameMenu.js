@@ -1,10 +1,11 @@
-import { useProgress } from '@react-three/drei'
+import { useProgress, } from '@react-three/drei'
 import React, { useEffect, useState } from 'react'
 import { GameLoader } from './GameLoader'
-
+import { useStore } from '@/state/useStore'
 
 export const GameMenu = (props) => {
     const { active, progress } = useProgress()
+    const [shown, setShown] = useState(true)
     const [hasLoaded, setHasLoaded] = useState(false)
     useEffect(() => {
         if (progress >= 100) {
@@ -15,8 +16,18 @@ export const GameMenu = (props) => {
     }, [progress])
 
 
+    const { gameStarted, gameOver, setGameStarted } = useStore()
+    console.log(gameStarted);
 
-    return (
+    useEffect(() => {
+        if (gameStarted || gameOver) {
+            setShown(false)
+        } else if (!gameStarted) {
+            setShown(true)
+        }
+    }, [gameStarted, active, gameOver])
+
+    return shown ? (
         <>
 
             {!hasLoaded ? (
@@ -31,7 +42,9 @@ export const GameMenu = (props) => {
                             src="/images/cover.jpg"
                         />
                         <div className="menu-buttons">
-                            <button> Start</button>
+                            <button onClick={() => {
+                                setGameStarted(true)
+                            }}> Start</button>
                             <button> About</button>
                         </div>
                     </div>
@@ -39,6 +52,6 @@ export const GameMenu = (props) => {
                 </div>
             )}
         </>
-    )
+    ) : null
 
 }

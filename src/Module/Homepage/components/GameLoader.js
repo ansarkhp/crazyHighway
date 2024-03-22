@@ -3,7 +3,6 @@ const defaultDataInterpolation = (p) => `Loading: ${p.toFixed(0)}%`
 
 export const GameLoader = (props) => {
     const { active, progress } = props
-    console.log(progress);
     return (
         <div className='gameloder-wrapper'>
             <div className='bar-wrap'>

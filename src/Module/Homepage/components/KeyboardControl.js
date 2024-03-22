@@ -1,9 +1,10 @@
+import { useStore } from '@/state/useStore'
 import { useFrame } from '@react-three/fiber'
 import { useEffect, } from 'react'
 import * as THREE from 'three'
 
 export default function KeyboardControl({ keyMap }) {
-
+    const { gameStarted } = useStore()
 
     useEffect(() => {
         const onDocumentKey = (e) => {
@@ -22,7 +23,7 @@ export default function KeyboardControl({ keyMap }) {
     // setTimeout(() => { console.log("hello", keyMap.current.distance); }, 4000);
     let s = 0
     useFrame((_, delta) => {
-
+        if (gameStarted) {
         let speed = keyMap.current.speed
         s += 1
 
@@ -49,12 +50,12 @@ export default function KeyboardControl({ keyMap }) {
                 keyMap.current.speed = breakDown
             }
         }
-        if (!keyMap.current.distance) {
-            keyMap.current.distance = 0.00000001
-        } else {
-            keyMap.current.distance = keyMap.current.distance + keyMap.current.speed
+            if (!keyMap.current.distance) {
+                keyMap.current.distance = 0.00000001
+            } else {
+                keyMap.current.distance = keyMap.current.distance + keyMap.current.speed
+            }
         }
-
     })
 
 

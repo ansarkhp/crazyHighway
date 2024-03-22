@@ -2,6 +2,7 @@ import React from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
+import { useStore } from '@/state/useStore'
 
 export const DriveCar = (props) => {
     const { scene } = useThree()
@@ -9,6 +10,7 @@ export const DriveCar = (props) => {
     let carMesh
     let carBox
     var { keyMap, state } = props
+    const { gameStarted } = useStore()
 
     createDriveCar({
         object: gltf.scene.clone(),
@@ -60,31 +62,35 @@ export const DriveCar = (props) => {
     let rac = 1
     useFrame(() => {
 
-        if (keyMap['ArrowLeft']) {
-            if (carMesh.position.x > -4.15) {
-                lac = lac + .8
-                let v = (keyMap['speed'] / 20) * lac
-                if (keyMap['speed'] >= las) las = v >= keyMap['speed'] ? keyMap['speed'] : v
-                carMesh.position.x = carMesh.position.x - las
-                carBox.setFromObject(carMesh)
+        if (gameStarted) {
+
+            if (keyMap['ArrowLeft']) {
+                if (carMesh.position.x > -4.15) {
+                    lac = lac + .8
+                    let v = (keyMap['speed'] / 20) * lac
+                    if (keyMap['speed'] >= las) las = v >= keyMap['speed'] ? keyMap['speed'] : v
+                    carMesh.position.x = carMesh.position.x - las
+                    carBox.setFromObject(carMesh)
+                }
+            } else {
+                lac = 1
+                las = 0.08
             }
-        } else {
-            lac = 1
-            las = 0.08
-        }
-        if (keyMap['ArrowRight']) {
-            if (carMesh.position.x < 4.15) {
-                rac = rac + .8
-                let v = (keyMap['speed'] / 20) * rac
-                if (keyMap['speed'] >= ras) ras = v >= keyMap['speed'] ? keyMap['speed'] : v
-                carMesh.position.x = carMesh.position.x + ras
-                carBox.setFromObject(carMesh)
+            if (keyMap['ArrowRight']) {
+                if (carMesh.position.x < 4.15) {
+                    rac = rac + .8
+                    let v = (keyMap['speed'] / 20) * rac
+                    if (keyMap['speed'] >= ras) ras = v >= keyMap['speed'] ? keyMap['speed'] : v
+                    carMesh.position.x = carMesh.position.x + ras
+                    carBox.setFromObject(carMesh)
+                }
+            } else {
+                rac = 1
+                ras = 0.08
             }
-        } else {
-            rac = 1
-            ras = 0.08
+            state.current.carBox = carBox
+
         }
-        state.current.carBox = carBox
     })
 
 }

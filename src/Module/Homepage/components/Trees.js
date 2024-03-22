@@ -1,10 +1,12 @@
 import React from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
+import { useStore } from '@/state/useStore'
 
 export const Trees = (props) => {
     const { scene } = useThree()
     const { scene: obj } = useGLTF('models/Tree.glb')
+    const { gameStarted } = useStore()
 
     const treesArry = []
     let min = 5.40
@@ -101,9 +103,11 @@ export const Trees = (props) => {
 
     useFrame(() => {
         // console.log(keyMap['speed']);
-        treesArry.forEach((obj) => {
-            obj.update(keyMap['speed'])
-        })
+        if (gameStarted) {
+            treesArry.forEach((obj) => {
+                obj.update(keyMap['speed'])
+            })
+        }
     })
 
 }

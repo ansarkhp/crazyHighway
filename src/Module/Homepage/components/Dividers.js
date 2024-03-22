@@ -1,12 +1,13 @@
 import React from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
+import { useStore } from '@/state/useStore'
 
 export const Dividers = (props) => {
     const { scene } = useThree()
     const { scene: obj } = useGLTF('models/Fence.glb')
     const dividerArry = []
-
+    const { gameStarted } = useStore()
     const { keyMap } = props
     
 
@@ -83,10 +84,12 @@ export const Dividers = (props) => {
         dividerArry.push(object)
     }
 
-    useFrame(() => (
-        dividerArry.forEach((obj) => {
-            obj.update(keyMap['speed'])
-        })
-    ))
+    useFrame(() => {
+        if (gameStarted) {
+            dividerArry.forEach((obj) => {
+                obj.update(keyMap['speed'])
+            })
+        }
+    })
 
 }
