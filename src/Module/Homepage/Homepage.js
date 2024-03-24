@@ -1,7 +1,7 @@
 import React, { Suspense, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Stats, PerspectiveCamera } from '@react-three/drei'
-import { Dividers, DriveCar, GameMenu, HUD, Lights, Road, SpawnCars, Terrain, Trees } from './components'
+import { Dividers, DriveCar, GameLoader, GameMenu, HUD, Lights, Road, SpawnCars, Terrain, Trees } from './components'
 import { Leva } from 'leva'
 import * as THREE from 'three'
 import KeyboardControl from './components/KeyboardControl'
@@ -15,6 +15,7 @@ export const Homepage = () => {
         <>
             {/* <Leva collapsed /> */}
             <HUD keyMap={keyMap.current} state={state.current} />
+            <GameLoader />
             <GameMenu />
             <Canvas
                 className='canvas'

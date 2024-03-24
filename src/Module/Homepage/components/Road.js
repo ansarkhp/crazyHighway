@@ -1,5 +1,6 @@
 import { useStore } from '@/state/useStore'
 import { useFrame, useThree } from '@react-three/fiber'
+import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 
 export const Road = (props) => {
@@ -7,8 +8,8 @@ export const Road = (props) => {
         keyMap,
     } = props
     const { scene } = useThree()
-    let roadArry = []
-    const { gameStarted } = useStore()
+    let roadArry = useRef([]);
+    const { gameStatus } = useStore()
 
 
     const material = new THREE.MeshBasicMaterial({ color: 0xc8c8c8 });
@@ -36,7 +37,7 @@ export const Road = (props) => {
 
 
     }
-    initRoadline()
+
 
 
     function createRoad({
@@ -61,13 +62,11 @@ export const Road = (props) => {
 
 
         mesh.update = (speed) => {
-            mesh.position.z += speed
 
             if (mesh.position.z > 5.5) {
-                var index = roadArry.indexOf(mesh);
-                if (index !== -1) {
-                    roadArry.splice(index, 1);
-                }
+                roadArry.current = roadArry.current.filter((v) => {
+                    return v.uid !== mesh.uid
+                })
                 createRoad({
                     pos: {
                         x: mesh.position.x, y: mesh.position.y, z: -36
@@ -75,10 +74,12 @@ export const Road = (props) => {
                     uid: mesh.uid
                 })
                 scene.remove(mesh)
+            } else {
+                mesh.position.z += speed
             }
         }
 
-        roadArry.push(mesh)
+        roadArry.current.push(mesh)
 
     }
 
@@ -100,11 +101,17 @@ export const Road = (props) => {
 
         scene.add(mesh);
     }
-    createCentralLine()
+
+    useEffect(() => {
+        roadArry.current = [] 
+        initRoadline()
+        createCentralLine()
+
+    }, [])
 
     useFrame((e) => {
-        if (gameStarted) {
-            roadArry.forEach((obj) => {
+        if (gameStatus === 3) {
+            roadArry.current.forEach((obj) => {
                 obj.update(keyMap['speed'])
             })
         }

@@ -12,7 +12,7 @@ export const SpawnCars = (props) => {
     const { keyMap, state } = props
     let spawnCars = []
     let collidedCoinArry = []
-    const { gameStarted } = useStore()
+    const { gameStatus } = useStore()
 
     function createCar({
         object,
@@ -259,7 +259,7 @@ export const SpawnCars = (props) => {
 
 
     useFrame((e) => {
-        if (gameStarted) {
+        if (gameStatus === 3) {
 
             spawnCars.forEach((obj) => {
                 obj.update(keyMap['speed'])

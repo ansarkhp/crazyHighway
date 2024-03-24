@@ -1,17 +1,19 @@
 import { Color } from 'three'
 import { createRef } from 'react'
-import create from 'zustand'
+import { create } from 'zustand'
 
 const useStore = create((set, get) => {
 
   return {
     set,
     get,
+    gameStatus: 0,
     score: 0,
     level: 0,
     gameOver: false,
     gameStarted: false,
     hasInteracted: false,
+    setGameStatus: (status) => set(state => ({ gameStatus: status })),
     setHasInteracted: () => set(state => ({ hasInteracted: true })),
     setIsSpeedingUp: (speedingUp) => set(state => ({ isSpeedingUp: speedingUp })),
     incrementLevel: () => set(state => ({ level: state.level + 1 })),
@@ -21,6 +23,13 @@ const useStore = create((set, get) => {
     enableMusic: (enabled) => set(state => ({ musicEnabled: enabled }))
   }
 })
+
+// game status
+// 0 = initial loading
+// 1 = menu screen
+// 2 = game start count down
+// 3 = play game
+// 4 = pouse game
 
 const mutation = {
   gameOver: false,

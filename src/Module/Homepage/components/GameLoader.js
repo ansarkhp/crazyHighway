@@ -1,9 +1,20 @@
+import { useStore } from '@/state/useStore'
+import { useProgress } from '@react-three/drei'
 import React, { useEffect, useState } from 'react'
-const defaultDataInterpolation = (p) => `Loading: ${p.toFixed(0)}%`
 
 export const GameLoader = (props) => {
-    const { active, progress } = props
-    return (
+    const { active, progress } = useProgress()
+    const { gameStatus, setGameStatus } = useStore()
+
+    useEffect(() => {
+        if (progress >= 100) {
+            setTimeout(function () {
+                setGameStatus(1)
+            }, 500)
+        }
+    }, [progress])
+
+    return gameStatus === 0 ? (
         <div className='gameloder-wrapper'>
             <div className='bar-wrap'>
                 <div
@@ -14,6 +25,6 @@ export const GameLoader = (props) => {
                 />
             </div>
         </div>
-    )
+    ) : null
 
 }

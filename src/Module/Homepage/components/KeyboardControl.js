@@ -4,7 +4,7 @@ import { useEffect, } from 'react'
 import * as THREE from 'three'
 
 export default function KeyboardControl({ keyMap }) {
-    const { gameStarted } = useStore()
+    const { gameStatus } = useStore()
 
     useEffect(() => {
         const onDocumentKey = (e) => {
@@ -23,7 +23,7 @@ export default function KeyboardControl({ keyMap }) {
     // setTimeout(() => { console.log("hello", keyMap.current.distance); }, 4000);
     let s = 0
     useFrame((_, delta) => {
-        if (gameStarted) {
+        if (gameStatus === 3) {
         let speed = keyMap.current.speed
         s += 1
 

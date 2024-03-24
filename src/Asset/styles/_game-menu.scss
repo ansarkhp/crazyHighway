@@ -66,23 +66,23 @@
   z-index: 5;
   height: 100vh;
   width: 100vw;
-  background-color: #EE2B47;
+  background-color: #000;
   display: flex;
   justify-content: center;
   align-items: center;
 
   .bar-wrap {
     width: 50%;
-    height: 3.5%;
+    height: 2%;
     background-color: #ffffff40;
     border-radius: 25px;
     overflow: hidden;
 
     .loader-bar {
       height: 100%;
-      background-color: #000000;
+      background-color: #fff;
       -webkit-transition-duration: 1s;
-      transition-duration: 1s;
+      transition-duration: .5s;
     }
   }
 }
