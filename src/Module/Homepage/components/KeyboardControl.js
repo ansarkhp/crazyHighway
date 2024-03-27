@@ -4,7 +4,7 @@ import { useEffect, } from 'react'
 import * as THREE from 'three'
 
 export default function KeyboardControl({ keyMap }) {
-    const { gameStatus } = useStore()
+    const gameStatus = useStore(s => s.gameStatus)
 
     useEffect(() => {
         const onDocumentKey = (e) => {

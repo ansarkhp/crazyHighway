@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
@@ -10,9 +10,14 @@ export const SpawnCars = (props) => {
     const coinGltf = useGLTF('models/coin.glb')
     let audio = new Audio('sound/coin-collide.wav')
     const { keyMap, state } = props
-    let spawnCars = []
-    let collidedCoinArry = []
+    let spawnCars = useRef([]);
+    let collidedCoinArry = useRef([]);
     const { gameStatus } = useStore()
+    let rp = [-3.75, -1.25, 1.25, 3.7]
+
+    const sp = useRef([{ uid: 0, posX: rp[Math.floor(Math.random() * 4)], isCar: true, posS: 0, lengthX: 3 }])
+    const collidedCoins = useStore((state) => state.collidedCoins)
+    const setCoinCollided = useStore((state) => state.setCoinCollided)
 
     function createCar({
         object,
@@ -74,23 +79,22 @@ export const SpawnCars = (props) => {
 
         carMesh.update = (speed) => {
 
-            carMesh.position.z += speed
-            carMesh.boox.setFromObject(carMesh)
 
             if (carMesh.position.z > 5.5) {
-                var index = spawnCars.indexOf(carMesh);
-                if (index !== -1) {
-                    spawnCars.splice(index, 1);
-                }
+
+                spawnCars.current = spawnCars.current.filter((v) => {
+                    return v.uid !== carMesh.uid
+                })
                 const Alm = scene.children.find(v => v.uid === `${uid}box`)
                 if (Alm) {
                     scene.remove(Alm)
                 }
                 scene.remove(carMesh)
+            } else {
+                carMesh.position.z += speed
+                carMesh.boox.setFromObject(carMesh)
             }
         }
-
-
 
         let carBox = new THREE.Box3().setFromObject(carMesh);
         // let helper = new THREE.Box3Helper(carBox, new THREE.Color(0, 255, 0));
@@ -103,7 +107,7 @@ export const SpawnCars = (props) => {
         // scene.add(helper);
         carMesh.boox = carBox
 
-        spawnCars.push(carMesh)
+        spawnCars.current.push(carMesh)
 
 
     }
@@ -129,24 +133,24 @@ export const SpawnCars = (props) => {
 
         carMesh.update = (speed) => {
 
-            carMesh.position.z += speed
-            carMesh.rotation.y -= 0.02;
-            carMesh.boox.setFromObject(carMesh)
-
             if (carMesh.position.z > 5.5) {
-                var index = spawnCars.indexOf(carMesh);
-                if (index !== -1) {
-                    spawnCars.splice(index, 1);
-                }
-                var i = collidedCoinArry.indexOf(carMesh);
-                if (i !== -1) {
-                    collidedCoinArry.splice(i, 1);
-                }
+                spawnCars.current = spawnCars.current.filter((v) => {
+                    return v.uid !== carMesh.uid
+                })
+               
+                collidedCoinArry.current = collidedCoinArry.current.filter((v) => {
+                    return v.uid !== carMesh.uid
+                })
+               
                 const Alm = scene.children.find(v => v.uid === `${uid}box`)
                 if (Alm) {
                     scene.remove(Alm)
                 }
                 scene.remove(carMesh)
+            } else {
+                carMesh.position.z += speed
+                carMesh.rotation.y -= 0.02;
+                carMesh.boox.setFromObject(carMesh)
             }
         }
         carMesh.collideUpdate = (speed) => {
@@ -165,63 +169,62 @@ export const SpawnCars = (props) => {
         // scene.add(helper);
         carMesh.boox = carBox
 
-        spawnCars.push(carMesh)
+        spawnCars.current.push(carMesh)
+
     }
 
-    let rp = []
-    scene.traverse(function (child) {
-        if (child.name === "road") {
-            let ls = child.position.x - (child.scale.x / 2)
-            let a = child.scale.x / 4
-            for (let i = 1; i < 5; i++) {
-                rp.push(ls + (i * a) - (a / 2))
+    useEffect(() => {
+        for (let step = 0; step < 100; step++) {
+            let max = 15
+            let obj = {
+                uid: step + 1,
+                posX: rp[Math.floor(Math.random() * 4)],
+                isCar: Math.random() < 0.85,
             }
+
+
+            if (sp.current.at(-1).posX === obj.posX) {
+                let min = sp.current.at(-1).lengthX
+                obj.posS = sp.current.at(-1).posS + Math.floor(Math.random() * (max - min + 1)) + min
+                obj.lengthX = obj.isCar ? 3 : Math.floor(Math.random() * (8 - 3 + 1)) + 3
+            } else {
+                obj.posS = sp.current.at(-1).posS + Math.floor(Math.random() * (max - 2 + 1)) + 2
+                obj.lengthX = obj.isCar ? 3 : Math.floor(Math.random() * (8 - 3 + 1)) + 3
+            }
+            sp.current.push(obj)
         }
-    });
+    }, [])
 
-
-
-    let sp = [{ uid: 0, posX: rp[Math.floor(Math.random() * 4)], isCar: true, posS: 0, lengthX: 3 }]
-
-    for (let step = 0; step < 100; step++) {
-        let max = 15
-        let obj = {
-            uid: step + 1,
-            posX: rp[Math.floor(Math.random() * 4)],
-            isCar: Math.random() < 0.85,
-        }
-
-
-        if (sp.at(-1).posX === obj.posX) {
-            let min = sp.at(-1).lengthX
-            obj.posS = sp.at(-1).posS + Math.floor(Math.random() * (max - min + 1)) + min
-            obj.lengthX = obj.isCar ? 3 : Math.floor(Math.random() * (8 - 3 + 1)) + 3
-        } else {
-            obj.posS = sp.at(-1).posS + Math.floor(Math.random() * (max - 2 + 1)) + 2
-            obj.lengthX = obj.isCar ? 3 : Math.floor(Math.random() * (8 - 3 + 1)) + 3
-        }
-        sp.push(obj)
-    }
+    // spawn x position calculate fun
+    // scene.traverse(function (child) {
+    //     if (child.name === "road") {
+    //         let ls = child.position.x - (child.scale.x / 2)
+    //         let a = child.scale.x / 4
+    //         for (let i = 1; i < 5; i++) {
+    //             rp.push(ls + (i * a) - (a / 2))
+    //         }
+    //     }
+    // });
 
     const updateSpawnElement = () => {
-        sp.shift()
+        sp.current.shift()
         let max = 15
         let obj = {
-            uid: sp.at(-1).uid + 1,
+            uid: sp.current.at(-1).uid + 1,
             posX: rp[Math.floor(Math.random() * 4)],
             isCar: Math.random() < 0.85
         }
 
 
-        if (sp.at(-1).posX === obj.posX) {
-            let min = sp.at(-1).lengthX + 2
-            obj.posS = sp.at(-1).posS + Math.floor(Math.random() * (max - min + 1)) + min
+        if (sp.current.at(-1).posX === obj.posX) {
+            let min = sp.current.at(-1).lengthX + 2
+            obj.posS = sp.current.at(-1).posS + Math.floor(Math.random() * (max - min + 1)) + min
             obj.lengthX = obj.isCar ? 3 : Math.floor(Math.random() * (6 - 4 + 1)) + 4
         } else {
-            obj.posS = sp.at(-1).posS + Math.floor(Math.random() * (max - 2 + 1)) + 2
+            obj.posS = sp.current.at(-1).posS + Math.floor(Math.random() * (max - 2 + 1)) + 2
             obj.lengthX = obj.isCar ? 3 : Math.floor(Math.random() * (6 - 4 + 1)) + 4
         }
-        sp.push(obj)
+        sp.current.push(obj)
     }
 
     const collisionCheck = (obj) => {
@@ -238,19 +241,19 @@ export const SpawnCars = (props) => {
                 let Box = obj.boox
                 var collision = state.carBox.intersectsBox(Box);
                 if (collision == true) {
-                    if (!state.collidedCoin?.some((e) => e === obj.uid)) {
+                    if (!collidedCoins?.some((e) => e === obj.uid)) {
                         audio.cloneNode(true).play();
                     }
-                    if (state.collidedCoin) {
+                    if (collidedCoins) {
                         function onlyUnique(value, index, self) {
                             return self.indexOf(value) === index;
                         }
-                        var unique = [...state.collidedCoin, obj.uid].filter(onlyUnique);
-                        state.collidedCoin = unique
-                        collidedCoinArry = [...collidedCoinArry, obj].filter(onlyUnique);
+                        var unique = [...collidedCoins, obj.uid].filter(onlyUnique);
+                        setCoinCollided(unique)
+                        collidedCoinArry.current = [...collidedCoinArry.current, obj].filter(onlyUnique);
                     } else {
-                        state.collidedCoin = [obj.uid]
-                        collidedCoinArry = [obj]
+                        setCoinCollided([obj.uid])
+                        collidedCoinArry.current = [obj]
                     }
                 }
             }
@@ -261,15 +264,15 @@ export const SpawnCars = (props) => {
     useFrame((e) => {
         if (gameStatus === 3) {
 
-            spawnCars.forEach((obj) => {
+            spawnCars.current.forEach((obj) => {
                 obj.update(keyMap['speed'])
                 collisionCheck(obj)
             })
-            collidedCoinArry.forEach((obj) => {
+            collidedCoinArry.current.forEach((obj) => {
                 obj.collideUpdate(keyMap['speed'])
             })
-            if (sp.length > 0 && (keyMap['distance'] >= sp[0].posS)) {
-                let spawnElement = sp[0]
+            if (sp.current.length > 0 && (keyMap['distance'] >= sp.current[0].posS)) {
+                let spawnElement = sp.current[0]
                 updateSpawnElement()
                 if (spawnElement.isCar) {
                     createCar({

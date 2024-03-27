@@ -9,8 +9,7 @@ export const Road = (props) => {
     } = props
     const { scene } = useThree()
     let roadArry = useRef([]);
-    const { gameStatus } = useStore()
-
+    const gameStatus = useStore(s => s.gameStatus)
 
     const material = new THREE.MeshBasicMaterial({ color: 0xc8c8c8 });
     const geometry = new THREE.BoxGeometry(1, 1);

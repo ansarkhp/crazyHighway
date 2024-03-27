@@ -1,11 +1,13 @@
 import { useStore } from '@/state/useStore';
+import { useFrame } from '@react-three/fiber';
 import React, { useEffect, useState } from 'react'
 
 
 export const HUD = (props) => {
 
-    const { state } = props
-    const { gameStatus, setGameStatus } = useStore()
+    const gameStatus = useStore(s => s.gameStatus)
+    const setGameStatus = useStore(s => s.setGameStatus)
+    const collidedCoins = useStore(s => s.collidedCoins)
 
 
     const [seconds, setSeconds] = useState(2);
@@ -34,7 +36,7 @@ export const HUD = (props) => {
                 </div> */}
 
                     <div className='speed'>
-                        <div className='speed-meter'>{state.collidedCoin?.length ?? 0}</div>
+                        <div className='speed-meter'>{collidedCoins?.length ?? 0}</div>
                         <div>Coins</div>
                     </div>
                     {/* <div>

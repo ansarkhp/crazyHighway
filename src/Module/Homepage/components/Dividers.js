@@ -7,7 +7,7 @@ export const Dividers = (props) => {
     const { scene } = useThree()
     const { scene: obj } = useGLTF('models/Fence.glb')
     const dividerArry = useRef([]);
-    const { gameStatus } = useStore()
+    const gameStatus = useStore(s => s.gameStatus)
     const { keyMap } = props
 
 

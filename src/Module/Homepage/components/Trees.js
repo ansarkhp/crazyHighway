@@ -6,7 +6,7 @@ import { useStore } from '@/state/useStore'
 export const Trees = (props) => {
     const { scene } = useThree()
     const { scene: obj } = useGLTF('models/Tree.glb')
-    const { gameStatus } = useStore()
+    const gameStatus = useStore(s => s.gameStatus)
     const treesArry = useRef([]);
     let min = 5.40
     let max = 10.50

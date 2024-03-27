@@ -3,7 +3,8 @@ import { useStore } from '@/state/useStore'
 
 export const GameMenu = (props) => {
 
-    const { gameStatus, setGameStatus } = useStore()
+    const gameStatus = useStore(s => s.gameStatus)
+    const setGameStatus = useStore(s => s.setGameStatus)
 
     return gameStatus === 1 ? (
         <>

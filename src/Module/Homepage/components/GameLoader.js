@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react'
 
 export const GameLoader = (props) => {
     const { active, progress } = useProgress()
-    const { gameStatus, setGameStatus } = useStore()
+    const gameStatus = useStore(s => s.gameStatus)
+    const setGameStatus = useStore(s => s.setGameStatus)
 
     useEffect(() => {
         if (progress >= 100) {

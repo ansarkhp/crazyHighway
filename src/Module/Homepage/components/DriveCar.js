@@ -10,7 +10,7 @@ export const DriveCar = (props) => {
     let carMesh = useRef()
     let carBox = useRef()
     var { keyMap, state } = props
-    const { gameStatus } = useStore()
+    const gameStatus = useStore(s => s.gameStatus)
 
     function createDriveCar({
         object,
@@ -63,6 +63,8 @@ export const DriveCar = (props) => {
     let lac = 1
     let ras = 0.01
     let rac = 1
+
+    console.log("gameStatus", gameStatus);
     useFrame(() => {
 
         if (gameStatus === 3) {

@@ -10,11 +10,10 @@ export const Homepage = () => {
     const keyMap = useRef({})
     const state = useRef({})
     console.log("reloading....");
-
     return (
         <>
             {/* <Leva collapsed /> */}
-            <HUD keyMap={keyMap.current} state={state.current} />
+            <HUD keyMap={keyMap.current} />
             <GameLoader />
             <GameMenu />
             <Canvas
