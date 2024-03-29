@@ -3,12 +3,29 @@
   z-index: 2;
   color: #fff;
   text-align: center;
+  font-family: "warden";
 
   .meter {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: flex-end;
     text-transform: uppercase;
+
+    .col {
+      width: 100%;
+
+      &.pause-col {
+        text-align: end;
+        align-self: start;
+
+        .pause-img {
+          width: 40px;
+          cursor: pointer;
+          filter: brightness(0) saturate(100%) invert(100%) sepia(35%) saturate(0%) hue-rotate(171deg) brightness(109%) contrast(100%);
+          margin:8px;
+        }
+      }
+    }
 
     .meter-divider {
       border: 1px solid #fff;
@@ -41,6 +58,37 @@
     span {
       font-size: 10rem;
       font-weight: 500;
+    }
+  }
+
+  .pause-screen {
+    border: 5px solid #fff;
+    border-radius: 18px;
+     background-color: #D2E0FB;
+    backdrop-filter: blur(8px);
+    width: fit-content;
+    margin: auto;
+
+    .pause-screen-wrap {
+      padding: 24px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      .btn{
+        border: 3px solid #fff;
+        border-radius: 10px;
+        font-size: 1.5rem;
+        padding: 6px 32px;
+        &.resume{
+          background-color: #A1C398;
+        }
+        &.retry{
+          background-color: #B3A398;
+        }
+        &.exit{
+          background-color: #FA7070;
+        }
+      }
     }
   }
 }

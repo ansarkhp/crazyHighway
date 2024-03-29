@@ -1,5 +1,4 @@
 import { useStore } from '@/state/useStore';
-import { useFrame } from '@react-three/fiber';
 import React, { useEffect, useState } from 'react'
 
 
@@ -30,19 +29,21 @@ export const HUD = (props) => {
         <div className='game-wrapper'>
             {gameStatus !== 2 && (
                 <div className='meter'>
-                    {/* <div>
-                    <div>Distance</div>
-                    <div className='meter-divider' />
-                </div> */}
+                    <div className='col'>
 
-                    <div className='speed'>
+                    </div>
+
+                    <div className='speed col'>
                         <div className='speed-meter'>{collidedCoins?.length ?? 0}</div>
                         <div>Coins</div>
                     </div>
-                    {/* <div>
-                    <div onClick={reset}>Time</div>
-                    <div className='meter-divider' />
-                </div> */}
+                    <div className='col pause-col'>
+                        <img
+                            alt="pause"
+                            src="/images/three-line.svg"
+                            className='pause-img'
+                        />
+                    </div>
 
                 </div>
             )}
@@ -51,7 +52,15 @@ export const HUD = (props) => {
                     <span> {seconds === 0 ? 'GO!' : seconds}</span>
                 </div>
             )}
-
+            {gameStatus === 4 && (
+                <div className='pause-screen'>
+                    <div className='pause-screen-wrap'>
+                        <div className='btn resume'>Resume</div>
+                        <div className='btn retry'>retry</div>
+                        <div className='btn exit'>exit</div>
+                    </div>
+                </div>
+            )}
             {/* <div className='meter-values'>
                 <div className='mt-wrap'>
                     <div>{calculateDistance(keyMap.distance)}KM</div>
