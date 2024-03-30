@@ -87,9 +87,11 @@ export const Trees = (props) => {
     }
 
     useEffect(() => {
-        treesArry.current = []
-        initTree(obj)  
-    }, [])
+        if (gameStatus === 2) {
+            treesArry.current = []
+            initTree(obj)
+        }
+    }, [gameStatus])
 
     useFrame(() => {
         if (gameStatus === 3) {

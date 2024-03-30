@@ -7,27 +7,41 @@ export const HUD = (props) => {
     const gameStatus = useStore(s => s.gameStatus)
     const setGameStatus = useStore(s => s.setGameStatus)
     const collidedCoins = useStore(s => s.collidedCoins)
+    const setCoinCollided = useStore(s => s.setCoinCollided)
 
 
     const [seconds, setSeconds] = useState(2);
 
     useEffect(() => {
-        if (gameStatus === 2 && seconds > -1) {
+        if ((gameStatus === 2 || gameStatus === 5) && seconds > -1) {
             const timerId = setTimeout(() => setSeconds(seconds - 1), 1000);
             // Cleanup function to clear the timeout when the component unmounts
             return () => clearTimeout(timerId);
-        } else if (gameStatus === 2) {
+        } else if (gameStatus === 2 || gameStatus === 5) {
             // Perform any actions when the countdown finishes (optional)
             setGameStatus(3)
-            console.log("game start");
         }
     }, [seconds, gameStatus]);
+    const onResumeGamePlay = () => {
+        setSeconds(3)
+        setGameStatus(5)
+    }
 
+    const onExitGamePlay = () => {
+        setSeconds(3)
+        setGameStatus(1)
+        setCoinCollided([])
+    }
+    const onRetryGamePlay = () => {
+        setSeconds(3)
+        setGameStatus(2)
+        setCoinCollided([])
+    }
 
 
     return (
         <div className='game-wrapper'>
-            {gameStatus !== 2 && (
+            {gameStatus === 3 && (
                 <div className='meter'>
                     <div className='col'>
 
@@ -42,12 +56,13 @@ export const HUD = (props) => {
                             alt="pause"
                             src="/images/three-line.svg"
                             className='pause-img'
+                            onClick={() => { setGameStatus(4) }}
                         />
                     </div>
 
                 </div>
             )}
-            {gameStatus === 2 && (
+            {(gameStatus === 2 || gameStatus === 5) && (
                 <div className='counter-wrap'>
                     <span> {seconds === 0 ? 'GO!' : seconds}</span>
                 </div>
@@ -55,9 +70,22 @@ export const HUD = (props) => {
             {gameStatus === 4 && (
                 <div className='pause-screen'>
                     <div className='pause-screen-wrap'>
-                        <div className='btn resume'>Resume</div>
-                        <div className='btn retry'>retry</div>
-                        <div className='btn exit'>exit</div>
+                        <div
+                            className='btn resume'
+                            onClick={onResumeGamePlay}
+                        >
+                            Resume
+                        </div>
+                        <div
+                            className='btn retry'
+                            onClick={onRetryGamePlay}
+                        >Restart</div>
+                        <div
+                            className='btn exit'
+                            onClick={onExitGamePlay}
+                        >
+                            exit
+                        </div>
                     </div>
                 </div>
             )}

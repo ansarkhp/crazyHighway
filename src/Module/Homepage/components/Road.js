@@ -102,11 +102,12 @@ export const Road = (props) => {
     }
 
     useEffect(() => {
-        roadArry.current = [] 
-        initRoadline()
-        createCentralLine()
-
-    }, [])
+        if (gameStatus === 2) {
+            roadArry.current = []
+            initRoadline()
+            createCentralLine()
+        }
+    }, [gameStatus])
 
     useFrame((e) => {
         if (gameStatus === 3) {

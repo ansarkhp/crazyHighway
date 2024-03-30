@@ -22,7 +22,7 @@
           width: 40px;
           cursor: pointer;
           filter: brightness(0) saturate(100%) invert(100%) sepia(35%) saturate(0%) hue-rotate(171deg) brightness(109%) contrast(100%);
-          margin:8px;
+          margin: 8px;
         }
       }
     }
@@ -62,30 +62,41 @@
   }
 
   .pause-screen {
-    border: 5px solid #fff;
-    border-radius: 18px;
-     background-color: #D2E0FB;
-    backdrop-filter: blur(8px);
-    width: fit-content;
     margin: auto;
+    position: absolute;
+    right: 0;
+    left: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     .pause-screen-wrap {
       padding: 24px 32px;
       display: flex;
       flex-direction: column;
       gap: 12px;
-      .btn{
+      border: 5px solid #fff;
+      border-radius: 18px;
+      background-color: #D2E0FB;
+      backdrop-filter: blur(8px);
+      width: fit-content;
+
+      .btn {
         border: 3px solid #fff;
         border-radius: 10px;
         font-size: 1.5rem;
         padding: 6px 32px;
-        &.resume{
+        cursor: pointer;
+        &.resume {
           background-color: #A1C398;
         }
-        &.retry{
+
+        &.retry {
           background-color: #B3A398;
         }
-        &.exit{
+
+        &.exit {
           background-color: #FA7070;
         }
       }

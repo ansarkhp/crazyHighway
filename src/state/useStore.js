@@ -32,6 +32,7 @@ const useStore = create((set, get) => {
 // 2 = game start count down
 // 3 = play game
 // 4 = pouse game
+// 5 = pouse /play 
 
 const mutation = {
   gameOver: false,

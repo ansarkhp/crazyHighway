@@ -73,9 +73,11 @@ export const Dividers = (props) => {
     }
 
     useEffect(() => {
-        dividerArry.current = []
-        initDivider(obj)
-    }, [])
+        if (gameStatus === 2) {
+            dividerArry.current = []
+            initDivider(obj)
+        }
+    }, [gameStatus])
 
     useFrame(() => {
         if (gameStatus === 3) {
