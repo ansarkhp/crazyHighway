@@ -33,6 +33,7 @@ const useStore = create((set, get) => {
 // 3 = play game
 // 4 = pouse game
 // 5 = pouse /play 
+// 6 = car colllides with another car
 
 const mutation = {
   gameOver: false,

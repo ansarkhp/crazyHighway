@@ -51,20 +51,21 @@ export const DriveCar = (props) => {
     }
 
     useEffect(() => {
-        createDriveCar({
-            object: gltf.scene.clone(),
-            pos: {
-                x: 1.25, y: 0, z: 0
-            },
-        })
-    }, [])
+        if (gameStatus === 2) {
+            createDriveCar({
+                object: gltf.scene.clone(),
+                pos: {
+                    x: 1.25, y: 0, z: 0
+                },
+            })
+        }
+    }, [gameStatus])
 
     let las = 0.01
     let lac = 1
     let ras = 0.01
     let rac = 1
 
-    console.log("gameStatus", gameStatus);
     useFrame(() => {
 
         if (gameStatus === 3) {

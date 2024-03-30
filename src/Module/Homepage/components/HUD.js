@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react'
 
 export const HUD = (props) => {
 
+    const { keyMap } = props
+
     const gameStatus = useStore(s => s.gameStatus)
     const setGameStatus = useStore(s => s.setGameStatus)
     const collidedCoins = useStore(s => s.collidedCoins)
@@ -31,11 +33,15 @@ export const HUD = (props) => {
         setSeconds(3)
         setGameStatus(1)
         setCoinCollided([])
+        keyMap.speed = 0.08
+        keyMap.distance = 0.00000001
     }
     const onRetryGamePlay = () => {
         setSeconds(3)
         setGameStatus(2)
         setCoinCollided([])
+        keyMap.speed = 0.08
+        keyMap.distance = 0.00000001
     }
 
 
@@ -75,6 +81,32 @@ export const HUD = (props) => {
                             onClick={onResumeGamePlay}
                         >
                             Resume
+                        </div>
+                        <div
+                            className='btn retry'
+                            onClick={onRetryGamePlay}
+                        >Restart</div>
+                        <div
+                            className='btn exit'
+                            onClick={onExitGamePlay}
+                        >
+                            exit
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {gameStatus === 6 && (
+                <div className='score-screen'>
+                    <div className='score-screen-wrap'>
+                        <div className='score-card'>
+                            <p>Coins Collected</p>
+                            <div className='coin-wrap'>
+
+                                <h4>{collidedCoins?.length ?? 0}</h4>
+
+                            </div>
+
                         </div>
                         <div
                             className='btn retry'

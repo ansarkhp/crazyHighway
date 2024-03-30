@@ -12,7 +12,8 @@ export const SpawnCars = (props) => {
     const { keyMap, state } = props
     let spawnCars = useRef([]);
     let collidedCoinArry = useRef([]);
-    const { gameStatus } = useStore()
+    const gameStatus = useStore(s => s.gameStatus)
+    const setGameStatus = useStore(s => s.setGameStatus)
     let rp = [-3.75, -1.25, 1.25, 3.7]
 
     const sp = useRef([{ uid: 0, posX: rp[Math.floor(Math.random() * 4)], isCar: true, posS: 0, lengthX: 3 }])
@@ -183,7 +184,6 @@ export const SpawnCars = (props) => {
             spawnCars.current = []
             collidedCoinArry.current = []
 
-            console.log(spawnCars);
 
             for (let step = 0; step < 100; step++) {
                 let max = 15
@@ -245,6 +245,7 @@ export const SpawnCars = (props) => {
                 let Box = obj.boox
                 var collision = state.carBox.intersectsBox(Box);
                 if (collision == true) {
+                    setGameStatus(6)
                     // console.log("spawn car collision");
                 }
             }
