@@ -48,6 +48,27 @@ export const HUD = (props) => {
         keyMap.current[code] = type === 'keydown'
     }
 
+    var elem = document.documentElement
+    useEffect(() => {
+        if (isMobile && gameStatus === 1) {
+
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) { /* Safari */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE11 */
+                elem.msRequestFullscreen();
+            }
+            const oppositeOrientation = screen.orientation.type.startsWith("portrait")
+                ? "landscape"
+                : "portrait";
+            screen.orientation.lock(oppositeOrientation).then(() => {
+                // console.log(`Locked to ${oppositeOrientation}\n`);
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+    }, [isMobile, gameStatus])
     return (
         <div className='game-wrapper' onContextMenu={(e) => e.preventDefault()}>
             {gameStatus === 3 && (
@@ -143,12 +164,12 @@ export const HUD = (props) => {
                             />
                         </div>
                         <div className='accelerator-or-break'>
-                                <img
-                                    alt="break"
-                                    src="/images/b-pedal.png"
-                                    onTouchStart={(e) => { onDocumentKey('ArrowDown', "keydown") }}
-                                    onTouchEnd={(e) => { onDocumentKey('ArrowDown', "keyup") }}
-                                />
+                            <img
+                                alt="break"
+                                src="/images/b-pedal.png"
+                                onTouchStart={(e) => { onDocumentKey('ArrowDown', "keydown") }}
+                                onTouchEnd={(e) => { onDocumentKey('ArrowDown', "keyup") }}
+                            />
 
                             <img
                                 alt="acc"
