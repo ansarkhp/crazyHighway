@@ -165,4 +165,40 @@
       }
     }
   }
+
+  .mobile-control {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+
+    .mobile-control-wrap {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 12px 6px 18px;
+
+      img {
+        filter: brightness(0) saturate(100%) invert(98%) sepia(100%) saturate(10%) hue-rotate(175deg) brightness(103%) contrast(102%);
+
+        &:active {
+          filter: brightness(0) saturate(100%) invert(71%) sepia(78%) saturate(1%) hue-rotate(23deg) brightness(97%) contrast(91%);
+        }
+      }
+
+      .left-or-right {
+        display: flex;
+        gap: 8px;
+
+        img {
+          filter: brightness(0) saturate(100%) invert(98%) sepia(100%) saturate(10%) hue-rotate(175deg) brightness(103%) contrast(102%);
+        }
+      }
+
+      .accelerator-or-break {
+        display: flex;
+        gap: 10px;
+
+
+      }
+    }
+  }
 }

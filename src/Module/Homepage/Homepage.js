@@ -13,7 +13,7 @@ export const Homepage = () => {
     return (
         <>
             {/* <Leva collapsed /> */}
-            <HUD keyMap={keyMap.current} />
+            <HUD keyMap={keyMap} />
             <GameLoader />
             <GameMenu />
             <Canvas

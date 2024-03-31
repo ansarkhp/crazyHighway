@@ -1,6 +1,6 @@
 import { useStore } from '@/state/useStore';
 import React, { useEffect, useState } from 'react'
-
+import { isMobile } from 'react-device-detect';
 
 export const HUD = (props) => {
 
@@ -33,20 +33,23 @@ export const HUD = (props) => {
         setSeconds(3)
         setGameStatus(1)
         setCoinCollided([])
-        keyMap.speed = 0.08
-        keyMap.distance = 0.00000001
+        keyMap.current.speed = 0.08
+        keyMap.current.distance = 0.00000001
     }
     const onRetryGamePlay = () => {
         setSeconds(3)
         setGameStatus(2)
         setCoinCollided([])
-        keyMap.speed = 0.08
-        keyMap.distance = 0.00000001
+        keyMap.current.speed = 0.08
+        keyMap.current.distance = 0.00000001
     }
 
+    const onDocumentKey = (code, type) => {
+        keyMap.current[code] = type === 'keydown'
+    }
 
     return (
-        <div className='game-wrapper'>
+        <div className='game-wrapper' onContextMenu={(e) => e.preventDefault()}>
             {gameStatus === 3 && (
                 <div className='meter'>
                     <div className='col'>
@@ -121,6 +124,42 @@ export const HUD = (props) => {
                     </div>
                 </div>
             )}
+
+            {(gameStatus === 3 && isMobile) ? (
+                <div className='mobile-control'>
+                    <div className='mobile-control-wrap'>
+                        <div className='left-or-right'>
+                            <img
+                                alt="ArrowLeft"
+                                src="/images/left-arrow.png"
+                                onTouchStart={(e) => { onDocumentKey('ArrowLeft', "keydown") }}
+                                onTouchEnd={(e) => { onDocumentKey('ArrowLeft', "keyup") }}
+                            />
+                            <img
+                                alt="ArrowRight"
+                                src="/images/right-arrow.png"
+                                onTouchStart={(e) => { onDocumentKey('ArrowRight', "keydown") }}
+                                onTouchEnd={(e) => { onDocumentKey('ArrowRight', "keyup") }}
+                            />
+                        </div>
+                        <div className='accelerator-or-break'>
+                                <img
+                                    alt="break"
+                                    src="/images/b-pedal.png"
+                                    onTouchStart={(e) => { onDocumentKey('ArrowDown', "keydown") }}
+                                    onTouchEnd={(e) => { onDocumentKey('ArrowDown', "keyup") }}
+                                />
+
+                            <img
+                                alt="acc"
+                                src="/images/a-pedal.png"
+                                onTouchStart={(e) => { onDocumentKey('ArrowUp', "keydown") }}
+                                onTouchEnd={(e) => { onDocumentKey('ArrowUp', "keyup") }}
+                            />
+                        </div>
+                    </div>
+                </div>
+            ) : ""}
             {/* <div className='meter-values'>
                 <div className='mt-wrap'>
                     <div>{calculateDistance(keyMap.distance)}KM</div>
