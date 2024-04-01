@@ -27,7 +27,14 @@ export const HUD = (props) => {
     const onResumeGamePlay = () => {
         setSeconds(3)
         setGameStatus(5)
+        PokiSDK.gameplayStart();
     }
+
+    const onPauseGamePlay = () => {
+        setGameStatus(4)
+        PokiSDK.gameplayStop();
+    }
+
 
     const onExitGamePlay = () => {
         setSeconds(3)
@@ -35,13 +42,25 @@ export const HUD = (props) => {
         setCoinCollided([])
         keyMap.current.speed = 0.08
         keyMap.current.distance = 0.00000001
+        PokiSDK.gameplayStop();
     }
     const onRetryGamePlay = () => {
-        setSeconds(3)
-        setGameStatus(2)
-        setCoinCollided([])
-        keyMap.current.speed = 0.08
-        keyMap.current.distance = 0.00000001
+        // pause your game here if it isn't already
+        PokiSDK.commercialBreak(() => {
+            // you can pause any background music or other audio here
+        }).then(() => {
+            console.log("Commercial break finished, proceeding to game");
+            // if the audio was paused you can resume it here (keep in mind that the function above to pause it might not always get called)
+            // continue your game here
+            setSeconds(3)
+            setGameStatus(2)
+            setCoinCollided([])
+            keyMap.current.speed = 0.08
+            keyMap.current.distance = 0.00000001
+
+            PokiSDK.gameplayStart();
+        });
+
     }
 
     const onDocumentKey = (code, type) => {
@@ -50,7 +69,7 @@ export const HUD = (props) => {
 
     var elem = document.documentElement
     useEffect(() => {
-        if (isMobile && gameStatus === 1) {
+        if (isMobile && gameStatus === 2) {
 
             if (elem.requestFullscreen) {
                 elem.requestFullscreen();
@@ -62,7 +81,7 @@ export const HUD = (props) => {
             const oppositeOrientation = screen.orientation.type.startsWith("portrait")
                 ? "landscape"
                 : "portrait";
-            screen.orientation.lock(oppositeOrientation).then(() => {
+            screen.orientation.lock("landscape").then(() => {
                 // console.log(`Locked to ${oppositeOrientation}\n`);
             }).catch((error) => {
                 console.log(error);
@@ -86,7 +105,7 @@ export const HUD = (props) => {
                             alt="pause"
                             src="/images/three-line.svg"
                             className='pause-img'
-                            onClick={() => { setGameStatus(4) }}
+                            onClick={onPauseGamePlay}
                         />
                     </div>
 
@@ -135,7 +154,7 @@ export const HUD = (props) => {
                         <div
                             className='btn retry'
                             onClick={onRetryGamePlay}
-                        >Restart</div>
+                        >Play Again</div>
                         <div
                             className='btn exit'
                             onClick={onExitGamePlay}

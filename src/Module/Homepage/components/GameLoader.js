@@ -11,6 +11,7 @@ export const GameLoader = (props) => {
         if (progress >= 100) {
             setTimeout(function () {
                 setGameStatus(1)
+                PokiSDK.gameLoadingFinished()
             }, 500)
         }
     }, [progress])

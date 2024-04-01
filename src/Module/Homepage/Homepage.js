@@ -10,6 +10,13 @@ export const Homepage = () => {
     const keyMap = useRef({})
     const state = useRef({})
     console.log("reloading....");
+    PokiSDK.init().then(() => {
+        console.log("Poki SDK successfully initialized");
+        // fire your function to continue to game
+    }).catch(() => {
+        console.log("Initialized, something went wrong, load you game anyway");
+        // fire your function to continue to game
+    });
     return (
         <>
             {/* <Leva collapsed /> */}
