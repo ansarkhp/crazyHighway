@@ -14,14 +14,9 @@ const useStore = create((set, get) => {
     gameOver: false,
     gameStarted: false,
     hasInteracted: false,
+    musicEnabled: true,
     setGameStatus: (status) => set(state => ({ gameStatus: status })),
     setCoinCollided: (value) => set(state => ({ collidedCoins: value })),
-    setHasInteracted: () => set(state => ({ hasInteracted: true })),
-    setIsSpeedingUp: (speedingUp) => set(state => ({ isSpeedingUp: speedingUp })),
-    incrementLevel: () => set(state => ({ level: state.level + 1 })),
-    setScore: (score) => set(state => ({ score: score })),
-    setGameStarted: (started) => set(state => ({ gameStarted: started })),
-    setGameOver: (over) => set(state => ({ gameOver: over })),
     enableMusic: (enabled) => set(state => ({ musicEnabled: enabled }))
   }
 })

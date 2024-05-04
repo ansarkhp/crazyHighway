@@ -4,6 +4,7 @@ import { useStore } from '@/state/useStore'
 export const Audios = (props) => {
     const [state, setState] = useState(false)
     const gameStatus = useStore(s => s.gameStatus)
+    const musicEnabled = useStore(s => s.musicEnabled)
     let driveAudio = new Audio('sound/game_theme.mp3')
     let gameAudio = new Audio('sound/gameOver_theme.mp3')
     let raceStartAudio = new Audio('sound/race-start-beeps.mp3')
@@ -36,8 +37,14 @@ export const Audios = (props) => {
 
             }
         };
-        playAudio(gameStatus); 
-        
+        if (musicEnabled) {
+            playAudio(gameStatus);
+        } else {
+            driveAudio.pause();
+            gameAudio.pause();
+            raceStartAudio.pause();
+        }
+
         window.addEventListener("click", function () {
             if (!state) setState(true)
 
@@ -47,6 +54,6 @@ export const Audios = (props) => {
             gameAudio.pause();
             raceStartAudio.pause();
         };
-    }, [gameStatus, state])
+    }, [gameStatus, state, musicEnabled])
 
 }

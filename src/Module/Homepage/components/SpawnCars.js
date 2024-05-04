@@ -19,6 +19,7 @@ export const SpawnCars = (props) => {
     const sp = useRef([{ uid: 0, posX: rp[Math.floor(Math.random() * 4)], isCar: true, posS: 0, lengthX: 3 }])
     const collidedCoins = useStore((state) => state.collidedCoins)
     const setCoinCollided = useStore((state) => state.setCoinCollided)
+    const musicEnabled = useStore(s => s.musicEnabled)
 
     function createCar({
         object,
@@ -256,7 +257,9 @@ export const SpawnCars = (props) => {
                 var collision = state.carBox.intersectsBox(Box);
                 if (collision == true) {
                     if (!collidedCoins?.some((e) => e === obj.uid)) {
-                        audio.cloneNode(true).play();
+                        if (musicEnabled) {
+                            audio.cloneNode(true).play();
+                        }
                     }
                     if (collidedCoins) {
                         function onlyUnique(value, index, self) {

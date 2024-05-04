@@ -10,6 +10,8 @@ export const HUD = (props) => {
     const setGameStatus = useStore(s => s.setGameStatus)
     const collidedCoins = useStore(s => s.collidedCoins)
     const setCoinCollided = useStore(s => s.setCoinCollided)
+    const musicEnabled = useStore(s => s.musicEnabled)
+    const enableMusic = useStore(s => s.enableMusic)
 
 
     const [seconds, setSeconds] = useState(2);
@@ -88,6 +90,11 @@ export const HUD = (props) => {
             });
         }
     }, [isMobile, gameStatus])
+
+    const onSoundOnOff = () => {
+        enableMusic(!musicEnabled)
+    }
+
     return (
         <div className='game-wrapper' onContextMenu={(e) => e.preventDefault()}>
             {gameStatus === 3 && (
@@ -125,6 +132,10 @@ export const HUD = (props) => {
                         >
                             Resume
                         </div>
+                        <div
+                            className='btn sound'
+                            onClick={onSoundOnOff}
+                        >Sound {musicEnabled ? "On" : "Off"}</div>
                         <div
                             className='btn retry'
                             onClick={onRetryGamePlay}
