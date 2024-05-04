@@ -246,7 +246,7 @@ export const SpawnCars = (props) => {
                 var collision = state.carBox.intersectsBox(Box);
                 if (collision == true) {
                     PokiSDK.gameplayStop();
-                    // setGameStatus(6)
+                    setGameStatus(6)
                     // console.log("spawn car collision");
                 }
             }
