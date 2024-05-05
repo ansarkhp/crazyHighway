@@ -13,7 +13,7 @@ export const HUD = (props) => {
     const musicEnabled = useStore(s => s.musicEnabled)
     const enableMusic = useStore(s => s.enableMusic)
 
-
+    const [state, setState] = useState(false)
     const [seconds, setSeconds] = useState(2);
 
     useEffect(() => {
@@ -70,9 +70,10 @@ export const HUD = (props) => {
     }
 
     var elem = document.documentElement
+    const { innerWidth: width, innerHeight: height } = window;
+    let isLandscape = width < height
     useEffect(() => {
-        if (isMobile && gameStatus === 2) {
-
+        if (isLandscape && gameStatus === 1 && state) {
             if (elem.requestFullscreen) {
                 elem.requestFullscreen();
             } else if (elem.webkitRequestFullscreen) { /* Safari */
@@ -80,16 +81,17 @@ export const HUD = (props) => {
             } else if (elem.msRequestFullscreen) { /* IE11 */
                 elem.msRequestFullscreen();
             }
-            const oppositeOrientation = screen.orientation.type.startsWith("portrait")
-                ? "landscape"
-                : "portrait";
             screen.orientation.lock("landscape").then(() => {
                 // console.log(`Locked to ${oppositeOrientation}\n`);
             }).catch((error) => {
                 console.log(error);
             });
         }
-    }, [isMobile, gameStatus])
+        window.addEventListener("click", function () {
+            if (!state) setState(true)
+
+        });
+    }, [isMobile, gameStatus, isLandscape, state])
 
     const onSoundOnOff = () => {
         enableMusic(!musicEnabled)

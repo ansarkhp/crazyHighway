@@ -14,7 +14,7 @@ const useStore = create((set, get) => {
     gameOver: false,
     gameStarted: false,
     hasInteracted: false,
-    musicEnabled: true,
+    musicEnabled: false,
     setGameStatus: (status) => set(state => ({ gameStatus: status })),
     setCoinCollided: (value) => set(state => ({ collidedCoins: value })),
     enableMusic: (enabled) => set(state => ({ musicEnabled: enabled }))
