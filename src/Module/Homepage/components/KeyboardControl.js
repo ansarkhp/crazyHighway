@@ -24,32 +24,32 @@ export default function KeyboardControl({ keyMap }) {
     let s = 0
     useFrame((_, delta) => {
         if (gameStatus === 3) {
-        let speed = keyMap.current.speed
-        s += 1
+            let speed = keyMap.current.speed
+            s += 1
 
-        // console.log("a", keyMap.current.speed);
-        const ds = 35
-        const SPS = (ds * 1000 / 3600) / 2
-        // console.log("fvvv", SPS, SPS / 60, SPS * delta, keyMap.current.distance + keyMap.current.speed , s , SPS * delta);
-        if (!keyMap.current.speed) {
-            keyMap.current.speed = 0.08
+            // console.log("a", keyMap.current.speed);
+            const ds = 35
+            const SPS = (ds * 1000 / 3600) / 2
+            // console.log("fvvv", SPS, SPS / 60, SPS * delta, keyMap.current.distance + keyMap.current.speed , s , SPS * delta);
+            if (!keyMap.current.speed) {
+                keyMap.current.speed = 0.08
 
-        }
-        // console.log("b", keyMap.current.speed);
-        if (keyMap.current['ArrowUp']) {
-            // speed += 0.005
-            if (speed < 0.3) {
-                keyMap.current.speed += 0.0006
             }
-        }
-        if (keyMap.current['ArrowDown']) {
-            let breakDown = speed - 0.001
-            if (breakDown <= 0.1) {
-                keyMap.current.speed = 0.1
-            } else if (breakDown > 0.1) {
-                keyMap.current.speed = breakDown
+            // console.log("b", keyMap.current.speed);
+            if (keyMap.current['ArrowUp'] || keyMap.current['KeyW']) {
+                // speed += 0.005
+                if (speed < 0.3) {
+                    keyMap.current.speed += 0.0006
+                }
             }
-        }
+            if (keyMap.current['ArrowDown'] || keyMap.current['KeyS']) {
+                let breakDown = speed - 0.001
+                if (breakDown <= 0.1) {
+                    keyMap.current.speed = 0.1
+                } else if (breakDown > 0.1) {
+                    keyMap.current.speed = breakDown
+                }
+            }
             if (!keyMap.current.distance) {
                 keyMap.current.distance = 0.00000001
             } else {

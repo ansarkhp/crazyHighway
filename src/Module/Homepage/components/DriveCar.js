@@ -70,7 +70,7 @@ export const DriveCar = (props) => {
 
         if (gameStatus === 3) {
 
-            if (keyMap['ArrowLeft']) {
+            if (keyMap['ArrowLeft'] || keyMap['KeyA']) {
                 if (carMesh.current.position.x > -4.15) {
                     lac = lac + .8
                     let v = (keyMap['speed'] / 20) * lac
@@ -82,7 +82,7 @@ export const DriveCar = (props) => {
                 lac = 1
                 las = 0.08
             }
-            if (keyMap['ArrowRight']) {
+            if (keyMap['ArrowRight'] || keyMap["KeyD"]) {
                 if (carMesh.current.position.x < 4.15) {
                     rac = rac + .8
                     let v = (keyMap['speed'] / 20) * rac

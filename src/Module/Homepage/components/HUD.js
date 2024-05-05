@@ -44,6 +44,8 @@ export const HUD = (props) => {
         setCoinCollided([])
         keyMap.current.speed = 0.08
         keyMap.current.distance = 0.00000001
+        keyMap.current.ArrowLeft = false
+        keyMap.current.ArrowRight = false
         PokiSDK.gameplayStop();
     }
     const onRetryGamePlay = () => {
@@ -59,6 +61,8 @@ export const HUD = (props) => {
             setCoinCollided([])
             keyMap.current.speed = 0.08
             keyMap.current.distance = 0.00000001
+            keyMap.current.ArrowLeft = false
+            keyMap.current.ArrowRight = false
 
             PokiSDK.gameplayStart();
         });
