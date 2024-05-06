@@ -9,6 +9,8 @@ export const SpawnCars = (props) => {
     const gltf = useGLTF('models/race.glb')
     const coinGltf = useGLTF('models/coin.glb')
     let audio = new Audio('sound/coin-collide.wav')
+    let crashSound = new Audio('sound/crash_sound.mp3')
+
     const { keyMap, state } = props
     let spawnCars = useRef([]);
     let collidedCoinArry = useRef([]);
@@ -248,6 +250,7 @@ export const SpawnCars = (props) => {
                 if (collision == true) {
                     PokiSDK.gameplayStop();
                     setGameStatus(6)
+                    if (musicEnabled) crashSound.play()
                     // console.log("spawn car collision");
                 }
             }
