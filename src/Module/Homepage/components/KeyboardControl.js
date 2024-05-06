@@ -38,11 +38,17 @@ export default function KeyboardControl({ keyMap }) {
             // console.log("b", keyMap.current.speed);
             if (keyMap.current['ArrowUp'] || keyMap.current['KeyW']) {
                 // speed += 0.005
-                if (speed < 0.3) {
+                if (speed < 0.35) {
                     keyMap.current.speed += 0.0006
                 }
-            }
-            if (keyMap.current['ArrowDown'] || keyMap.current['KeyS']) {
+            } else if (keyMap.current['ArrowDown'] || keyMap.current['KeyS']) {
+                let breakDown = speed - 0.002
+                if (breakDown <= 0.1) {
+                    keyMap.current.speed = 0.1
+                } else if (breakDown > 0.1) {
+                    keyMap.current.speed = breakDown
+                }
+            } else {
                 let breakDown = speed - 0.001
                 if (breakDown <= 0.1) {
                     keyMap.current.speed = 0.1
