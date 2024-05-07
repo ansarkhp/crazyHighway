@@ -1,6 +1,5 @@
-import { Color } from 'three'
-import { createRef } from 'react'
 import { create } from 'zustand'
+import { persist, createJSONStorage } from 'zustand/middleware'
 
 const useStore = create((set, get) => {
 
@@ -30,17 +29,19 @@ const useStore = create((set, get) => {
 // 5 = pouse /play 
 // 6 = car colllides with another car
 
-const mutation = {
-  gameOver: false,
-  score: 0,
-  gameSpeed: 0.0,
-  desiredSpeed: 0.0,
-  horizontalVelocity: 0,
-  colorLevel: 0,
-  shouldShiftItems: false,
-  currentMusicLevel: 0,
-  currentLevelLength: 0,
-  globalColor: new Color()
-}
+export const useStore2 = create(persist(
+  (set, get) => {
 
-export { useStore, mutation }
+    return {
+      set,
+      get,
+      highScore: 0,
+      setHighScore: (val) => set(state => ({ highScore: val })),
+    }
+  },
+  {
+    name: 'game-data', // name of the item in the storage (must be unique)
+    storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
+  },
+))
+export { useStore }

@@ -1,4 +1,4 @@
-import { useStore } from '@/state/useStore';
+import { useStore, useStore2 } from '@/state/useStore';
 import React, { useEffect, useState } from 'react'
 import { isMobile } from 'react-device-detect';
 
@@ -12,6 +12,7 @@ export const HUD = (props) => {
     const setCoinCollided = useStore(s => s.setCoinCollided)
     const musicEnabled = useStore(s => s.musicEnabled)
     const enableMusic = useStore(s => s.enableMusic)
+    const highScore = useStore2(s => s.highScore)
 
     const [state, setState] = useState(false)
     const [seconds, setSeconds] = useState(2);
@@ -105,8 +106,9 @@ export const HUD = (props) => {
         <div className='game-wrapper' onContextMenu={(e) => e.preventDefault()}>
             {gameStatus === 3 && (
                 <div className='meter'>
-                    <div className='col'>
-
+                    <div className='col high-score-col'>
+                        <div className='speed-meter'>{highScore < collidedCoins?.length ? collidedCoins?.length : highScore}</div>
+                        <div>High Score</div>
                     </div>
 
                     <div className='speed col'>
@@ -164,6 +166,15 @@ export const HUD = (props) => {
                             <div className='coin-wrap'>
 
                                 <h4>{collidedCoins?.length ?? 0}</h4>
+
+                            </div>
+
+                        </div>
+                        <div className='high-score-card'>
+                            <p>High Score</p>
+                            <div className='coin-wrap'>
+
+                                <h4>{highScore}</h4>
 
                             </div>
 

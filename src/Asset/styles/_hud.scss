@@ -25,6 +25,12 @@
           margin: 8px;
         }
       }
+
+      &.high-score-col {
+        text-align: start;
+        align-self: start;
+        padding-left: 4px;
+      }
     }
 
     .meter-divider {
@@ -92,6 +98,7 @@
         &.resume {
           background-color: #A1C398;
         }
+
         &.sound {
           background-color: #f4d1b8;
         }
@@ -146,6 +153,27 @@
           font-weight: 600;
           -webkit-text-stroke-width: .5px;
           -webkit-text-stroke-color: #000;
+        }
+
+      }
+      .high-score-card {
+        p {
+          margin: 0;
+          font-size: x-large;
+          color: #c81515;
+          font-weight: 600;
+          letter-spacing: 2px;
+          -webkit-text-stroke-width: .5px;
+          -webkit-text-stroke-color: #000;
+        }
+
+        h4 {
+          margin: 0;
+          font-size: xx-large;
+          color: #c81515;
+          font-weight: 600;
+          -webkit-text-stroke-width: .5px;
+          -webkit-text-stroke-color: black;
         }
 
       }

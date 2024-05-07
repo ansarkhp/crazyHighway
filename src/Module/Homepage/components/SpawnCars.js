@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
-import { useStore } from '@/state/useStore'
+import { useStore, useStore2 } from '@/state/useStore'
 
 export const SpawnCars = (props) => {
     const { scene } = useThree()
@@ -22,6 +22,10 @@ export const SpawnCars = (props) => {
     const collidedCoins = useStore((state) => state.collidedCoins)
     const setCoinCollided = useStore((state) => state.setCoinCollided)
     const musicEnabled = useStore(s => s.musicEnabled)
+    const highScore = useStore2(s => s.highScore)
+    const setHighScore = useStore2(s => s.setHighScore)
+
+
 
     function createCar({
         object,
@@ -250,6 +254,9 @@ export const SpawnCars = (props) => {
                 if (collision == true) {
                     PokiSDK.gameplayStop();
                     setGameStatus(6)
+                    if (collidedCoins.length > highScore) {
+                        setHighScore(collidedCoins.length)
+                    }
                     if (musicEnabled) crashSound.play()
                     // console.log("spawn car collision");
                 }

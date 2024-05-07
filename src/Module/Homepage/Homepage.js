@@ -30,7 +30,7 @@ export const Homepage = () => {
                 <PerspectiveCamera position={[0, 2.7, 5]} fov={75} near={0.1} far={100} makeDefault />
                 <Lights />
                 <OrbitControls />
-                <Stats className="statsUI" />
+                {/* <Stats className="statsUI" /> */}
                 <KeyboardControl keyMap={keyMap} />
                 <Road keyMap={keyMap.current} />
                 <Terrain name="road" pos={[0, 0, -15]} scale={[10, 0, 40]} color='#656579' keyMap={keyMap.current} />

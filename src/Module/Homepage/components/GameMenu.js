@@ -1,5 +1,6 @@
 import React from 'react'
-import { useStore } from '@/state/useStore'
+import { useStore, useStore2 } from '@/state/useStore'
+
 
 export const GameMenu = (props) => {
 
@@ -7,6 +8,8 @@ export const GameMenu = (props) => {
     const setGameStatus = useStore(s => s.setGameStatus)
     const musicEnabled = useStore(s => s.musicEnabled)
     const enableMusic = useStore(s => s.enableMusic)
+    const highScore = useStore2(s => s.highScore)
+
 
     const onStart = () => {
         PokiSDK.gameplayStart();
@@ -30,6 +33,7 @@ export const GameMenu = (props) => {
                     <div className="menu-buttons">
                         <button onClick={onStart}> Start</button>
                         <button onClick={onSoundOnOff}> Sound {musicEnabled ? "On" : "Off"}</button>
+                        <button className='score' > High Score {highScore}</button>
                     </div>
                 </div>
 
