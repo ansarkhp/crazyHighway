@@ -30,11 +30,9 @@ const useStore = create((set, get) => {
 // 6 = car colllides with another car
 
 export const useStore2 = create(persist(
-  (set, get) => {
+  (set) => {
 
     return {
-      set,
-      get,
       highScore: 0,
       setHighScore: (val) => set(state => ({ highScore: val })),
     }
@@ -43,5 +41,6 @@ export const useStore2 = create(persist(
     name: 'game-data', // name of the item in the storage (must be unique)
     storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
   },
-))
+)
+)
 export { useStore }

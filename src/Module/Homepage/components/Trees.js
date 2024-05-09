@@ -96,7 +96,7 @@ export const Trees = (props) => {
     useFrame(() => {
         if (gameStatus === 3) {
             treesArry.current.forEach((obj) => {
-                obj.update(keyMap['speed'])
+                obj.update(keyMap['spf'])
             })
         }
     })

@@ -290,15 +290,15 @@ export const SpawnCars = (props) => {
     }
 
 
-    useFrame((e) => {
+    useFrame(() => {
         if (gameStatus === 3) {
 
             spawnCars.current.forEach((obj) => {
-                obj.update(keyMap['speed'])
+                obj.update(keyMap['spf'])
                 collisionCheck(obj)
             })
             collidedCoinArry.current.forEach((obj) => {
-                obj.collideUpdate(keyMap['speed'])
+                obj.collideUpdate(keyMap['spf'])
             })
             if (sp.current.length > 0 && (keyMap['distance'] >= sp.current[0].posS)) {
                 let spawnElement = sp.current[0]

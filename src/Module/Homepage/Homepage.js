@@ -27,10 +27,10 @@ export const Homepage = () => {
                 className='canvas'
                 style={{ background: 'linear-gradient( 180deg ,#81adec,#d7e6f9, #d7e6f9)' }}
             >
-                <PerspectiveCamera position={[0, 2.7, 5]} fov={75} near={0.1} far={100} makeDefault />
+                <PerspectiveCamera position={[0, 2, 5]} fov={75} near={0.1} far={100} makeDefault />
                 <Lights />
-                <OrbitControls />
-                {/* <Stats className="statsUI" /> */}
+                {/* <OrbitControls /> */}
+                <Stats className="statsUI" />
                 <KeyboardControl keyMap={keyMap} />
                 <Road keyMap={keyMap.current} />
                 <Terrain name="road" pos={[0, 0, -15]} scale={[10, 0, 40]} color='#656579' keyMap={keyMap.current} />

@@ -109,10 +109,10 @@ export const Road = (props) => {
         }
     }, [gameStatus])
 
-    useFrame((e) => {
+    useFrame(() => {
         if (gameStatus === 3) {
             roadArry.current.forEach((obj) => {
-                obj.update(keyMap['speed'])
+                obj.update(keyMap['spf'])
             })
         }
     })

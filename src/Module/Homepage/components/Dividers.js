@@ -82,7 +82,7 @@ export const Dividers = (props) => {
     useFrame(() => {
         if (gameStatus === 3) {
             dividerArry.current.forEach((obj) => {
-                obj.update(keyMap['speed'])
+                obj.update(keyMap['spf'])
             })
         }
     })

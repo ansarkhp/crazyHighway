@@ -78,7 +78,7 @@ export const HUD = (props) => {
     const { innerWidth: width, innerHeight: height } = window;
     let isLandscape = width < height
     useEffect(() => {
-        if (isLandscape && gameStatus === 1 && state) {
+        if (isLandscape && gameStatus >= 1 && state) {
             if (elem.requestFullscreen) {
                 elem.requestFullscreen();
             } else if (elem.webkitRequestFullscreen) { /* Safari */
@@ -228,18 +228,6 @@ export const HUD = (props) => {
                     </div>
                 </div>
             ) : ""}
-            {/* <div className='meter-values'>
-                <div className='mt-wrap'>
-                    <div>{calculateDistance(keyMap.distance)}KM</div>
-                </div>
-                <div className='mt-wrap'>
-                    <div>
-                        {hours}:{minutes.toString().padStart(2, "0")}:
-                        {seconds.toString().padStart(2, "0")}
-                    </div>
-                </div>
-
-            </div> */}
         </div>
     )
 

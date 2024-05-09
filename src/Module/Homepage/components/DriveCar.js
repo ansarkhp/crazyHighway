@@ -73,8 +73,8 @@ export const DriveCar = (props) => {
             if (keyMap['ArrowLeft'] || keyMap['KeyA']) {
                 if (carMesh.current.position.x > -4.15) {
                     lac = lac + .8
-                    let v = (keyMap['speed'] / 20) * lac
-                    if (keyMap['speed'] >= las) las = v >= keyMap['speed'] ? keyMap['speed'] : v
+                    let v = (keyMap['spf'] / 20) * lac
+                    if (keyMap['spf'] >= las) las = v >= keyMap['spf'] ? keyMap['spf'] : v
                     carMesh.current.position.x = carMesh.current.position.x - las
                     carBox.current.setFromObject(carMesh.current)
                 }
@@ -85,8 +85,8 @@ export const DriveCar = (props) => {
             if (keyMap['ArrowRight'] || keyMap["KeyD"]) {
                 if (carMesh.current.position.x < 4.15) {
                     rac = rac + .8
-                    let v = (keyMap['speed'] / 20) * rac
-                    if (keyMap['speed'] >= ras) ras = v >= keyMap['speed'] ? keyMap['speed'] : v
+                    let v = (keyMap['spf'] / 20) * rac
+                    if (keyMap['spf'] >= ras) ras = v >= keyMap['spf'] ? keyMap['spf'] : v
                     carMesh.current.position.x = carMesh.current.position.x + ras
                     carBox.current.setFromObject(carMesh.current)
                 }

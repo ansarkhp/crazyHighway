@@ -22,8 +22,11 @@ export default function KeyboardControl({ keyMap }) {
 
     // setTimeout(() => { console.log("hello", keyMap.current.distance); }, 4000);
     let s = 0
+    var clock = new THREE.Clock();
+
     useFrame((_, delta) => {
         if (gameStatus === 3) {
+            var delta = clock.getDelta();
             let speed = keyMap.current.speed
             s += 1
 
@@ -61,6 +64,7 @@ export default function KeyboardControl({ keyMap }) {
             } else {
                 keyMap.current.distance = keyMap.current.distance + keyMap.current.speed
             }
+            keyMap.current.spf = (delta * keyMap.current.speed) * 60
         }
     })
 
