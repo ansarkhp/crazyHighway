@@ -62,7 +62,7 @@ export default function KeyboardControl({ keyMap }) {
             if (!keyMap.current.distance) {
                 keyMap.current.distance = 0.00000001
             } else {
-                keyMap.current.distance = keyMap.current.distance + keyMap.current.speed
+                keyMap.current.distance = keyMap.current.distance + keyMap.current.spf
             }
             keyMap.current.spf = (delta * keyMap.current.speed) * 60
         }
