@@ -49,21 +49,20 @@ export const HUD = (props) => {
         keyMap.current.ArrowRight = false
     }
     const onRetryGamePlay = () => {
-
         const callbacks = {
             adFinished: () => {
-                setSeconds(3)
-                setGameStatus(2)
-                setCoinCollided([]) 
+                setCoinCollided([])
                 keyMap.current.speed = 0.08
                 keyMap.current.distance = 0.00000001
                 keyMap.current.ArrowLeft = false
                 keyMap.current.ArrowRight = false
                 window.CrazyGames.SDK.game.gameplayStart();
-                // enableMusic(true)
+                setGameStatus(2)
+                enableMusic(musicEnabled)
             },
             adError: (error) => console.log("Error midgame ad", error),
             adStarted: () => {
+                setSeconds(3)
                 enableMusic(false)
                 console.log("Start midgame ad")
             },
@@ -89,7 +88,6 @@ export const HUD = (props) => {
                 elem.msRequestFullscreen();
             }
             screen.orientation.lock("landscape").then(() => {
-                // console.log(`Locked to ${oppositeOrientation}\n`);
             }).catch((error) => {
                 console.log(error);
             });

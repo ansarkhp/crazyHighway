@@ -252,8 +252,8 @@ export const SpawnCars = (props) => {
                 let Box = obj.boox
                 var collision = state.carBox.intersectsBox(Box);
                 if (collision == true) {
-                    window.CrazyGames.SDK.game.gameplayStop();
                     setGameStatus(6)
+                    window.CrazyGames.SDK.game.gameplayStop();  
                     if (collidedCoins.length > highScore) {
                         window.CrazyGames.SDK.game.happytime();
                         setHighScore(collidedCoins.length)
