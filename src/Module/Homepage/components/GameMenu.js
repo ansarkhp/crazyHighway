@@ -12,7 +12,7 @@ export const GameMenu = (props) => {
 
 
     const onStart = () => {
-        PokiSDK.gameplayStart();
+        window.CrazyGames.SDK.game.gameplayStart()
         setGameStatus(2)
     }
 

@@ -30,12 +30,12 @@ export const HUD = (props) => {
     const onResumeGamePlay = () => {
         setSeconds(3)
         setGameStatus(5)
-        PokiSDK.gameplayStart();
+        window.CrazyGames.SDK.game.gameplayStart();
     }
 
     const onPauseGamePlay = () => {
         setGameStatus(4)
-        PokiSDK.gameplayStop();
+        window.CrazyGames.SDK.game.gameplayStop()
     }
 
 
@@ -47,26 +47,28 @@ export const HUD = (props) => {
         keyMap.current.distance = 0.00000001
         keyMap.current.ArrowLeft = false
         keyMap.current.ArrowRight = false
-        PokiSDK.gameplayStop();
     }
     const onRetryGamePlay = () => {
-        // pause your game here if it isn't already
-        PokiSDK.commercialBreak(() => {
-            // you can pause any background music or other audio here
-        }).then(() => {
-            console.log("Commercial break finished, proceeding to game");
-            // if the audio was paused you can resume it here (keep in mind that the function above to pause it might not always get called)
-            // continue your game here
-            setSeconds(3)
-            setGameStatus(2)
-            setCoinCollided([])
-            keyMap.current.speed = 0.08
-            keyMap.current.distance = 0.00000001
-            keyMap.current.ArrowLeft = false
-            keyMap.current.ArrowRight = false
 
-            PokiSDK.gameplayStart();
-        });
+        const callbacks = {
+            adFinished: () => {
+                setSeconds(3)
+                setGameStatus(2)
+                setCoinCollided([]) 
+                keyMap.current.speed = 0.08
+                keyMap.current.distance = 0.00000001
+                keyMap.current.ArrowLeft = false
+                keyMap.current.ArrowRight = false
+                window.CrazyGames.SDK.game.gameplayStart();
+                // enableMusic(true)
+            },
+            adError: (error) => console.log("Error midgame ad", error),
+            adStarted: () => {
+                enableMusic(false)
+                console.log("Start midgame ad")
+            },
+        };
+        window.CrazyGames.SDK.ad.requestAd("midgame", callbacks)
 
     }
 

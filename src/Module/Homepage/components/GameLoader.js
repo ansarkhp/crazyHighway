@@ -11,9 +11,13 @@ export const GameLoader = (props) => {
         if (progress >= 100) {
             setTimeout(function () {
                 setGameStatus(1)
-                PokiSDK.gameLoadingFinished()
+                // window.CrazyGames.SDK.game.loadingStop();
             }, 500)
+        } else if (progress == 0) {
+            console.log("hello");
+            // window.CrazyGames.SDK.game.loadingStart();
         }
+
     }, [progress])
 
     return gameStatus === 0 ? (

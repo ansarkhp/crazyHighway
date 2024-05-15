@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head >
-        <script src="https://game-cdn.poki.com/scripts/v2/poki-sdk.js"></script>
+        <script src="https://sdk.crazygames.com/crazygames-sdk-v3.js"></script>
       </Head>
       <body>
         <Main />

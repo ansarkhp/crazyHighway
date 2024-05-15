@@ -10,8 +10,8 @@ export const Homepage = () => {
     const keyMap = useRef({})
     const state = useRef({})
     console.log("reloading....");
-    PokiSDK.init().then(() => {
-        console.log("Poki SDK successfully initialized");
+    window.CrazyGames.SDK.init().then(() => {
+        console.log("crazy games SDK successfully initialized");
         // fire your function to continue to game
     }).catch(() => {
         console.log("Initialized, something went wrong, load you game anyway");

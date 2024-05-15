@@ -252,9 +252,10 @@ export const SpawnCars = (props) => {
                 let Box = obj.boox
                 var collision = state.carBox.intersectsBox(Box);
                 if (collision == true) {
-                    PokiSDK.gameplayStop();
+                    window.CrazyGames.SDK.game.gameplayStop();
                     setGameStatus(6)
                     if (collidedCoins.length > highScore) {
+                        window.CrazyGames.SDK.game.happytime();
                         setHighScore(collidedCoins.length)
                     }
                     if (musicEnabled) crashSound.play()
