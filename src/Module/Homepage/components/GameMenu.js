@@ -12,7 +12,6 @@ export const GameMenu = (props) => {
 
 
     const onStart = () => {
-        window.CrazyGames.SDK.game.gameplayStart()
         setGameStatus(2)
     }
 

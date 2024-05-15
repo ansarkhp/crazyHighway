@@ -10,13 +10,6 @@ export const Homepage = () => {
     const keyMap = useRef({})
     const state = useRef({})
     console.log("reloading....");
-    window.CrazyGames.SDK.init().then(() => {
-        console.log("crazy games SDK successfully initialized");
-        // fire your function to continue to game 
-    }).catch(() => {
-        console.log("Initialized, something went wrong, load you game anyway");
-        // fire your function to continue to game
-    });
     return (
         <>
             {/* <Leva collapsed /> */}

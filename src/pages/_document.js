@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head >
-        <script src="https://sdk.crazygames.com/crazygames-sdk-v3.js"></script>
+        <script src="https://integration.gamepix.com/sdk/v3/gamepix.sdk.js"></script>
       </Head>
       <body>
         <Main />

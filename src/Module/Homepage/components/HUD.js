@@ -30,12 +30,10 @@ export const HUD = (props) => {
     const onResumeGamePlay = () => {
         setSeconds(3)
         setGameStatus(5)
-        window.CrazyGames.SDK.game.gameplayStart();
     }
 
     const onPauseGamePlay = () => {
         setGameStatus(4)
-        window.CrazyGames.SDK.game.gameplayStop()
     }
 
 
@@ -49,25 +47,20 @@ export const HUD = (props) => {
         keyMap.current.ArrowRight = false
     }
     const onRetryGamePlay = () => {
-        const callbacks = {
-            adFinished: () => {
-                setCoinCollided([])
-                keyMap.current.speed = 0.08
-                keyMap.current.distance = 0.00000001
-                keyMap.current.ArrowLeft = false
-                keyMap.current.ArrowRight = false
-                window.CrazyGames.SDK.game.gameplayStart();
-                setGameStatus(2)
-                enableMusic(musicEnabled)
-            },
-            adError: (error) => console.log("Error midgame ad", error),
-            adStarted: () => {
-                setSeconds(3)
-                enableMusic(false)
-                console.log("Start midgame ad")
-            },
-        };
-        window.CrazyGames.SDK.ad.requestAd("midgame", callbacks)
+
+        setSeconds(3)
+        enableMusic(false)
+        GamePix.interstitialAd().then(function (res) {
+            setCoinCollided([])
+            keyMap.current.speed = 0.08
+            keyMap.current.distance = 0.00000001
+            keyMap.current.ArrowLeft = false
+            keyMap.current.ArrowRight = false
+            setGameStatus(2)
+            enableMusic(musicEnabled)
+            // IMPORTANT: *** RESUME YOUR GAME ***
+
+        });
 
     }
 

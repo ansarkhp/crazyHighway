@@ -11,11 +11,8 @@ export const GameLoader = (props) => {
         if (progress >= 100) {
             setTimeout(function () {
                 setGameStatus(1)
-                // window.CrazyGames.SDK.game.loadingStop();
+                GamePix.loaded()
             }, 500)
-        } else if (progress == 0) {
-            console.log("hello");
-            // window.CrazyGames.SDK.game.loadingStart();
         }
 
     }, [progress])
