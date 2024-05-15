@@ -12,7 +12,7 @@ export const Homepage = () => {
     console.log("reloading....");
     window.CrazyGames.SDK.init().then(() => {
         console.log("crazy games SDK successfully initialized");
-        // fire your function to continue to game
+        // fire your function to continue to game 
     }).catch(() => {
         console.log("Initialized, something went wrong, load you game anyway");
         // fire your function to continue to game
