@@ -17,7 +17,15 @@ export const GameLoader = (props) => {
             console.log("hello");
             // window.CrazyGames.SDK.game.loadingStart();
         }
+        window.addEventListener("wheel", (event) => event.preventDefault(), {
+            passive: false,
+        });
 
+        window.addEventListener("keydown", (event) => {
+            if (["ArrowUp", "ArrowDown", " "].includes(event.key)) {
+                event.preventDefault();
+            }
+        });
     }, [progress])
 
     return gameStatus === 0 ? (
